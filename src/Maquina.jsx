@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import moment from 'moment';
 import "./Maquina.css";
 import Produto from "./Produto";
 
@@ -28,6 +29,7 @@ const VendingMachine = () => {
   const [checkum, setCheckum] = useState(false);
   const [checkdois, setCheckdois] = useState(false);
   const [concluido, setConcluido] = useState(false); 
+  const data = moment().format('Do, h:mm:ss a');;
 
   const precoprodutos = {
     HotWheels: 1,
@@ -43,6 +45,12 @@ const VendingMachine = () => {
     Berlindes: 0.5,
     Pops: 15,
   };
+  let Brinquedos = {};
+  for (let key in localStorage) {
+    if (key.startsWith('Brinquedos')) {
+      Brinquedos = {...Brinquedos, ...JSON.parse(localStorage.getItem(key))}
+    }
+  }
 
   const handleselecaoproduto = (produto) => {
     setSelecionar(produto);
@@ -77,7 +85,6 @@ const VendingMachine = () => {
       setCheckum(false);
     }
   };
-
   const handlecheck2 = () => {
     if(checkdois === false) {
       setCheckdois(true);
@@ -89,11 +96,9 @@ const VendingMachine = () => {
   const handleinsersaomoedas10 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 0.1);
     setMoedas((moedas) => moedas + 1);
-    localStorage.setItem("Moeda10", "0.10€");
     const preco = precoprodutos[selecionar];
     const falta = inserido - preco;
      if(falta >= 0) {
-      localStorage.setItem("Brinquedo", [selecionar]);
       setConcluido(true);
       setTroco(true);
       setTotal((moedasInseridas) => moedasInseridas + preco);
@@ -107,7 +112,6 @@ const VendingMachine = () => {
   const handleinsersaomoedas20 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 0.2);
     setMoedas((moedas) => moedas + 1);
-    localStorage.setItem("Moeda20", "0.20€");
     const preco = precoprodutos[selecionar];
     const falta = inserido - preco;
      if(falta >= 0) {
@@ -180,6 +184,8 @@ const VendingMachine = () => {
   const handleTroco = () => {
     setTroco(false);
     setInserido(0);
+    Brinquedos.tipo = [selecionar], Brinquedos.data = data, Brinquedos.troco = [inserido-precoprodutos[selecionar]], Brinquedos.gasto = precoprodutos[selecionar];
+    localStorage.setItem(data, JSON.stringify(Brinquedos));
     if(inserido > precoprodutos[selecionar]) {
       setMoedas((moedas) => moedas - 1);
     }
@@ -199,7 +205,7 @@ const VendingMachine = () => {
       </div>
       <h2>Produtos disponíveis:</h2>
       <ul className="produtos-form">
-      {stock.Puzzle > 0 && (
+      {stock.HotWheels > 0 && (
         <Produto
           nome="HotWheels"
           preco={precoprodutos.HotWheels}
@@ -320,7 +326,7 @@ const VendingMachine = () => {
       )}
       {troco && (
         <div className="troco-produtos">
-          <p>Por favor recolha a sua bebida</p>
+          <p>Por favor recolha o seu brinquedo</p>
           <p>Troco: {(inserido - precoprodutos[selecionar]).toFixed(2)}€</p>
           <button className="produtos-button" onClick={handleTroco}>Recolher troco</button>
         </div>
@@ -328,5 +334,6 @@ const VendingMachine = () => {
     </div>
   );
 };
+
 
 export default VendingMachine;
