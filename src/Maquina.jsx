@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from 'moment';
 import "./Maquina.css";
 import Produto from "./Produto";
+import Modal from "./Modal";
 
 const VendingMachine = () => {
+  const [showModal, setShowModal] = useState(false);
   const [total, setTotal] = useState(10); // Valor total do moedeiro
   const [stock, setStock] = useState({
     HotWheels: 20,
@@ -29,7 +31,8 @@ const VendingMachine = () => {
   const [checkum, setCheckum] = useState(false);
   const [checkdois, setCheckdois] = useState(false);
   const [concluido, setConcluido] = useState(false); 
-  const data = moment().format('Do, h:mm:ss a');;
+  const data = moment().format('Do, h:mm:ss a');
+  const [moedasinseridas, setMoedasInseridas] = useState(0);
 
   const precoprodutos = {
     HotWheels: 1,
@@ -51,6 +54,10 @@ const VendingMachine = () => {
       Brinquedos = {...Brinquedos, ...JSON.parse(localStorage.getItem(key))}
     }
   }
+
+  useEffect(() => {
+    console.log("Princesa", localStorage)
+  },[])
 
   const handleselecaoproduto = (produto) => {
     setSelecionar(produto);
@@ -95,12 +102,15 @@ const VendingMachine = () => {
 
   const handleinsersaomoedas10 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 0.1);
-    setMoedas((moedas) => moedas + 1);
+    setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
     const preco = precoprodutos[selecionar];
     const falta = inserido - preco;
      if(falta >= 0) {
       setConcluido(true);
       setTroco(true);
+      setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
+      setMoedas((moedas) => moedas + moedasinseridas);
+      setMoedasInseridas(0);
       setTotal((moedasInseridas) => moedasInseridas + preco);
       setStock((prevStock) => ({
         ...prevStock,
@@ -111,12 +121,15 @@ const VendingMachine = () => {
 
   const handleinsersaomoedas20 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 0.2);
-    setMoedas((moedas) => moedas + 1);
+    setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
     const preco = precoprodutos[selecionar];
     const falta = inserido - preco;
      if(falta >= 0) {
       setConcluido(true);
       setTroco(true);
+      setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
+      setMoedas((moedas) => moedas + moedasinseridas);
+      setMoedasInseridas(0);
       setTotal((moedasInseridas) => moedasInseridas + preco);
       setStock((prevStock) => ({
         ...prevStock,
@@ -127,12 +140,15 @@ const VendingMachine = () => {
 
   const handleinsersaomoedas50 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 0.5);
-    setMoedas((moedas) => moedas + 1);
+    setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
     const preco = precoprodutos[selecionar];
     const falta = inserido - preco;
      if(falta >= 0) {
       setConcluido(true);
       setTroco(true);
+      setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
+      setMoedas((moedas) => moedas + moedasinseridas);
+      setMoedasInseridas(0);
       setTotal((moedasInseridas) => moedasInseridas + preco);
       setStock((prevStock) => ({
         ...prevStock,
@@ -143,12 +159,15 @@ const VendingMachine = () => {
 
   const handleinsersaomoedas1 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 1);
-    setMoedas((moedas) => moedas + 1);
+    setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
     const preco = precoprodutos[selecionar];
     const falta = inserido - preco;
      if(falta >= 0) {
       setConcluido(true);
       setTroco(true);
+      setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
+      setMoedas((moedas) => moedas + moedasinseridas);
+      setMoedasInseridas(0);
       setTotal((moedasInseridas) => moedasInseridas + preco);
       setStock((prevStock) => ({
         ...prevStock,
@@ -159,18 +178,25 @@ const VendingMachine = () => {
 
   const handleinsersaomoedas2 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 2);
-    setMoedas((moedas) => moedas + 1);
+    setMoedasInseridas((moedasinseridas) => moedasinseridas + 1);
     const preco = precoprodutos[selecionar];
     const falta = inserido - preco;
      if(falta >= 0) {
       setConcluido(true);
       setTroco(true);
+      setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
+      setMoedas((moedas) => moedas + moedasinseridas);
+      setMoedasInseridas(0);
       setTotal((moedasInseridas) => moedasInseridas + preco);
       setStock((prevStock) => ({
         ...prevStock,
         [selecionar]: prevStock[selecionar] - 1,
       }));
     }
+  };
+
+  const handleCancelar = () => {
+    setInserido(0);
   };
 
   const handleCompras = () => {
@@ -186,16 +212,29 @@ const VendingMachine = () => {
     setInserido(0);
     Brinquedos.tipo = [selecionar], Brinquedos.data = data, Brinquedos.troco = [inserido-precoprodutos[selecionar]], Brinquedos.gasto = precoprodutos[selecionar];
     localStorage.setItem(data, JSON.stringify(Brinquedos));
-    if(inserido > precoprodutos[selecionar]) {
-      setMoedas((moedas) => moedas - 1);
-    }
   };
 
   return (
     <div>
       <h1>Vending Machine</h1>
-      <p className="total">Valor total no moedeiro: {total}€</p>
+      <p className="total">Valor total no moedeiro: {total.toFixed(2)}€</p>
       <p className="quantidade">Moedas existentes no moedeiro: {moedas}</p>
+      
+      <button className="produtos-button" onClick={() => setShowModal(true)}>Ver lista de compras</button>
+                    {
+                        showModal ?
+                        (
+                            <Modal>
+                                <div>
+                                    <h1>Eu</h1>
+                                        <div className="buttons">
+                                            <button onClick={() => setShowModal(false)}>Yes</button>
+                                            <button onClick={() => setShowModal(false)}>No</button>
+                                    </div>
+                                </div>
+                            </Modal>
+                        ) : null
+                    }
       <div className="checks">
       <input onChange={handlecheck10} type="checkbox" />0.10€
       <input onChange={handlecheck20} type="checkbox" />0.20€
@@ -305,7 +344,7 @@ const VendingMachine = () => {
       {selecionar && concluido === false && (
         <div className="pagar-produtos">
           <p>Preço: {precoprodutos[selecionar]}€</p>
-          <p>Dinheiro inserido: {inserido}€</p>
+          <p>Dinheiro inserido: {inserido.toFixed(2)}€</p>
           {checkdez === true && (
               <button className="produtos-button" onClick={handleinsersaomoedas10}>Inserir 10 cêntimos</button>
               )}
@@ -322,6 +361,7 @@ const VendingMachine = () => {
               <button className="produtos-button" onClick={handleinsersaomoedas2}>Inserir 2 Euro</button>
               )}
           <button className="produtos-button" onClick={handleCompras}>Comprar</button>
+          <button className="produtos-button" onClick={handleCancelar}>Cancelar</button>
         </div>
       )}
       {troco && (
