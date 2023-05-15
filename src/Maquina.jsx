@@ -6,6 +6,7 @@ import Modal from "./Modal";
 
 const VendingMachine = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
   const [total, setTotal] = useState(10); // Valor total do moedeiro
   const [stock, setStock] = useState({
     HotWheels: 20,
@@ -25,14 +26,29 @@ const VendingMachine = () => {
   const [inserido, setInserido] = useState(0); // dinheiro introduzido
   const [troco, setTroco] = useState(false); // mostra o troco
   const [moedas, setMoedas] = useState(50);
+  const [escolher, setEscolher] = useState(false);
+  const [comprar, setComprar] = useState(false);
   const [checkdez, setCheckdez] = useState(false);
   const [checkvinte, setCheckvinte] = useState(false);
   const [checkcinquenta, setCheckcinquenta] = useState(false);
   const [checkum, setCheckum] = useState(false);
   const [checkdois, setCheckdois] = useState(false);
-  const [concluido, setConcluido] = useState(false); 
+  const [, setConcluido] = useState(false); 
   const data = moment().format('Do, h:mm:ss a');
   const [moedasinseridas, setMoedasInseridas] = useState(0);
+  let keys = [];
+  let values = [];
+// Obtém todas as chaves do localStorage e as adiciona ao array "keys"
+  for (let i = 0; i < localStorage.length; i++){
+  keys.push(localStorage.key(i));
+}
+
+// Itera sobre o array "keys" e exibe as chaves e valores armazenados no localStorage
+  for (let i = 0; i < keys.length; i++){
+  let key = keys[i];
+  let value = localStorage.getItem(key);
+  values.push(value);
+}
 
   const precoprodutos = {
     HotWheels: 1,
@@ -103,82 +119,40 @@ const VendingMachine = () => {
   const handleinsersaomoedas10 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 0.1);
     setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
-    const preco = precoprodutos[selecionar];
-    const falta = inserido - preco;
-     if(falta >= 0) {
-      setConcluido(true);
-      setTroco(true);
-      setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
-      setMoedas((moedas) => moedas + moedasinseridas);
-      setMoedasInseridas(0);
-      setTotal((moedasInseridas) => moedasInseridas + preco);
-      setStock((prevStock) => ({
-        ...prevStock,
-        [selecionar]: prevStock[selecionar] - 1,
-      }));
-    }
   };
 
   const handleinsersaomoedas20 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 0.2);
     setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
-    const preco = precoprodutos[selecionar];
-    const falta = inserido - preco;
-     if(falta >= 0) {
-      setConcluido(true);
-      setTroco(true);
-      setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
-      setMoedas((moedas) => moedas + moedasinseridas);
-      setMoedasInseridas(0);
-      setTotal((moedasInseridas) => moedasInseridas + preco);
-      setStock((prevStock) => ({
-        ...prevStock,
-        [selecionar]: prevStock[selecionar] - 1,
-      }));
-    }
   };
 
   const handleinsersaomoedas50 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 0.5);
     setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
-    const preco = precoprodutos[selecionar];
-    const falta = inserido - preco;
-     if(falta >= 0) {
-      setConcluido(true);
-      setTroco(true);
-      setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
-      setMoedas((moedas) => moedas + moedasinseridas);
-      setMoedasInseridas(0);
-      setTotal((moedasInseridas) => moedasInseridas + preco);
-      setStock((prevStock) => ({
-        ...prevStock,
-        [selecionar]: prevStock[selecionar] - 1,
-      }));
-    }
   };
 
   const handleinsersaomoedas1 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 1);
     setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
-    const preco = precoprodutos[selecionar];
-    const falta = inserido - preco;
-     if(falta >= 0) {
-      setConcluido(true);
-      setTroco(true);
-      setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
-      setMoedas((moedas) => moedas + moedasinseridas);
-      setMoedasInseridas(0);
-      setTotal((moedasInseridas) => moedasInseridas + preco);
-      setStock((prevStock) => ({
-        ...prevStock,
-        [selecionar]: prevStock[selecionar] - 1,
-      }));
-    }
   };
 
   const handleinsersaomoedas2 = () => {
     setInserido((moedasInseridas) => moedasInseridas + 2);
     setMoedasInseridas((moedasinseridas) => moedasinseridas + 1);
+  };
+
+  const handleCancelar = () => {
+    setInserido(0);
+    setEscolher(false);
+    setComprar(false);
+  };
+
+  const handleEscolher = () => {
+    setEscolher(true);
+    setComprar(true);
+  };
+
+  const handleCompras = () => {
     const preco = precoprodutos[selecionar];
     const falta = inserido - preco;
      if(falta >= 0) {
@@ -193,23 +167,17 @@ const VendingMachine = () => {
         [selecionar]: prevStock[selecionar] - 1,
       }));
     }
-  };
-
-  const handleCancelar = () => {
-    setInserido(0);
-  };
-
-  const handleCompras = () => {
-    const preco = precoprodutos[selecionar];
-    const falta = inserido - preco;
-    if (falta < 0) {
+    else if (falta < 0) {
       alert("Insira mais dinheiro");
     }
   };
 
   const handleTroco = () => {
     setTroco(false);
+    setEscolher(false);
+    setComprar(false);
     setInserido(0);
+    setSelecionar("");
     Brinquedos.tipo = [selecionar], Brinquedos.data = data, Brinquedos.troco = [inserido-precoprodutos[selecionar]], Brinquedos.gasto = precoprodutos[selecionar];
     localStorage.setItem(data, JSON.stringify(Brinquedos));
   };
@@ -220,16 +188,29 @@ const VendingMachine = () => {
       <p className="total">Valor total no moedeiro: {total.toFixed(2)}€</p>
       <p className="quantidade">Moedas existentes no moedeiro: {moedas}</p>
       
-      <button className="produtos-button" onClick={() => setShowModal(true)}>Ver lista de compras</button>
+      <button className="modal-button" onClick={() => setShowModal(true)}>Ver lista de compras</button>
                     {
                         showModal ?
                         (
                             <Modal>
                                 <div>
-                                    <h1>Eu</h1>
-                                        <div className="buttons">
-                                            <button onClick={() => setShowModal(false)}>Yes</button>
-                                            <button onClick={() => setShowModal(false)}>No</button>
+                                    <h1>Olá esta é a lista de compras: <br></br> {values} <br></br> </h1>
+                                        <div>
+                                            <button onClick={() => setShowModal(false)}>OK</button>
+                                    </div>
+                                </div>
+                            </Modal>
+                        ) : null
+                    }
+                    <button className="modal-buttons" onClick={() => setShowModal2(true)}>Produtos disponiveis</button>
+                    {
+                        showModal2 ?
+                        (
+                            <Modal>
+                                <div>
+                                    <h1>Produtos disponiveis: <br></br> HotWheels - 1.00€ <br></br> Peluche - 1.2€ <br></br> Puzzle - 2.6€ <br></br> Piões - 0.7€ <br></br> Lego - 5.3€ <br></br> Comboio - 2€ <br></br> Nenuco - 1€ <br></br> Nerf - 10.2€ <br></br> Barbie - 1.9€ <br></br> Cubo - 1.3€ <br></br> Berlindes - 0.5€ <br></br> Pops - 15€</h1>
+                                        <div>
+                                            <button onClick={() => setShowModal2(false)}>OK</button>
                                     </div>
                                 </div>
                             </Modal>
@@ -244,7 +225,7 @@ const VendingMachine = () => {
       </div>
       <h2>Produtos disponíveis:</h2>
       <ul className="produtos-form">
-      {stock.HotWheels > 0 && (
+      {stock.HotWheels > 0 && escolher === true &&(
         <Produto
           nome="HotWheels"
           preco={precoprodutos.HotWheels}
@@ -252,7 +233,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("HotWheels")}
         />
       )}
-        {stock.Peluche > 0 && (
+        {stock.Peluche > 0 && escolher === true &&(
         <Produto
           nome="Peluche"
           preco={precoprodutos.Peluche}
@@ -260,7 +241,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("Peluche")}
         />
       )}
-       {stock.Puzzle > 0 && (
+       {stock.Puzzle > 0 && escolher === true &&(
         <Produto
           nome="Puzzle"
           preco={precoprodutos.Puzzle}
@@ -268,7 +249,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("Puzzle")}
         />
       )}
-      {stock.Piões > 0 && (
+      {stock.Piões > 0 && escolher === true &&(
         <Produto
           nome="Piões"
           preco={precoprodutos.Piões}
@@ -276,7 +257,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("Piões")}
         />
       )}
-      {stock.Lego > 0 && (
+      {stock.Lego > 0 && escolher === true &&(
         <Produto
           nome="Lego"
           preco={precoprodutos.Lego}
@@ -284,7 +265,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("Lego")}
         />
       )}
-      {stock.Comboio > 0 && (
+      {stock.Comboio > 0 && escolher === true &&(
         <Produto
           nome="Comboio"
           preco={precoprodutos.Comboio}
@@ -292,7 +273,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("Comboio")}
         />
       )}
-      {stock.Nenuco > 0 && (
+      {stock.Nenuco > 0 && escolher === true &&(
         <Produto
           nome="Nenuco"
           preco={precoprodutos.Nenuco}
@@ -300,7 +281,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("Nenuco")}
         />
       )}
-      {stock.Nerf > 0 && (
+      {stock.Nerf > 0 && escolher === true &&(
         <Produto
           nome="Nerf"
           preco={precoprodutos.Nerf}
@@ -308,7 +289,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("Nerf")}
         />
       )}
-      {stock.Barbie > 0 && (
+      {stock.Barbie > 0 && escolher === true &&(
         <Produto
           nome="Barbie"
           preco={precoprodutos.Barbie}
@@ -316,7 +297,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("Barbie")}
         />
       )}
-      {stock.Cubo > 0 && (
+      {stock.Cubo > 0 && escolher === true &&(
         <Produto
           nome="Cubo"
           preco={precoprodutos.Cubo}
@@ -324,7 +305,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("Cubo")}
         />
       )}
-      {stock.Berlindes > 0 && (
+      {stock.Berlindes > 0 && escolher === true &&(
         <Produto
           nome="Berlindes"
           preco={precoprodutos.Berlindes}
@@ -332,7 +313,7 @@ const VendingMachine = () => {
           onSelecionar={() => handleselecaoproduto("Berlindes")}
         />
       )}
-      {stock.Pops > 0 && (
+      {stock.Pops > 0 && escolher === true &&(
         <Produto
           nome="Pops"
           preco={precoprodutos.Pops}
@@ -341,7 +322,6 @@ const VendingMachine = () => {
         />
       )}
       </ul>
-      {selecionar && concluido === false && (
         <div className="pagar-produtos">
           <p>Preço: {precoprodutos[selecionar]}€</p>
           <p>Dinheiro inserido: {inserido.toFixed(2)}€</p>
@@ -360,10 +340,13 @@ const VendingMachine = () => {
               {checkdois === true &&(
               <button className="produtos-button" onClick={handleinsersaomoedas2}>Inserir 2 Euro</button>
               )}
-          <button className="produtos-button" onClick={handleCompras}>Comprar</button>
+              {comprar ===true &&
+                <button className="produtos-button" onClick={handleCompras}>Comprar</button>
+              }
+          <button className="produtos-button" onClick={handleEscolher}>Escolher Produtos</button>
           <button className="produtos-button" onClick={handleCancelar}>Cancelar</button>
         </div>
-      )}
+      
       {troco && (
         <div className="troco-produtos">
           <p>Por favor recolha o seu brinquedo</p>
