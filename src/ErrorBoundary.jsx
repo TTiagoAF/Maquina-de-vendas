@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-//Caso o programa esteja com algum erro ele dá a opção de voltar para a página principal
+
 class ErrorBoundary extends Component {
     state = { hasError: false };
 

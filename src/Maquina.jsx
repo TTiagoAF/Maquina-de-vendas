@@ -3,6 +3,8 @@ import moment from 'moment';
 import "./Maquina.css";
 import Produto from "./Produto";
 import Modal from "./Modal";
+import ErrorBoundary from "./ErrorBoundary"
+import { Link } from "react-router-dom";
 
 const VendingMachine = () => {
   const [showModal, setShowModal] = useState(false);
@@ -38,12 +40,10 @@ const VendingMachine = () => {
   const [moedasinseridas, setMoedasInseridas] = useState(0);
   let keys = [];
   let values = [];
-// Obtém todas as chaves do localStorage e as adiciona ao array "keys"
   for (let i = 0; i < localStorage.length; i++){
   keys.push(localStorage.key(i));
 }
 
-// Itera sobre o array "keys" e exibe as chaves e valores armazenados no localStorage
   for (let i = 0; i < keys.length; i++){
   let key = keys[i];
   let value = localStorage.getItem(key);
@@ -51,18 +51,18 @@ const VendingMachine = () => {
 }
 
   const precoprodutos = {
-    HotWheels: 1,
-    Peluche: 1.2,
-    Puzzle: 2.6,
-    Piões: 0.7,
-    Lego: 5.3,
-    Comboio: 2,
-    Nenuco: 1,
-    Nerf: 10.2,
-    Barbie: 1.9,
-    Cubo: 1.3,
-    Berlindes: 0.5,
-    Pops: 15,
+    HotWheels: 1.00,
+    Peluche: 1.20,
+    Puzzle: 2.60,
+    Piões: 0.70,
+    Lego: 5.30,
+    Comboio: 2.00,
+    Nenuco: 1.00,
+    Nerf: 10.20,
+    Barbie: 1.90,
+    Cubo: 1.30,
+    Berlindes: 0.50,
+    Pops: 15.00,
   };
   let Brinquedos = {};
   for (let key in localStorage) {
@@ -72,7 +72,7 @@ const VendingMachine = () => {
   }
 
   useEffect(() => {
-    console.log("Princesa", localStorage)
+    console.log("Oi", localStorage)
   },[])
 
   const handleselecaoproduto = (produto) => {
@@ -187,14 +187,13 @@ const VendingMachine = () => {
       <h1>Vending Machine</h1>
       <p className="total">Valor total no moedeiro: {total.toFixed(2)}€</p>
       <p className="quantidade">Moedas existentes no moedeiro: {moedas}</p>
-      
-      <button className="modal-button" onClick={() => setShowModal(true)}>Ver lista de compras</button>
+                  <button className="modal-button" onClick={() => setShowModal(true)}>Ver lista de compras</button>
                     {
                         showModal ?
                         (
                             <Modal>
                                 <div>
-                                    <h1>Olá esta é a lista de compras: <br></br> {values} <br></br> </h1>
+                                    <h1>Olá esta é a lista de compras: <br></br> {values}</h1>
                                         <div>
                                             <button onClick={() => setShowModal(false)}>OK</button>
                                     </div>
@@ -345,6 +344,9 @@ const VendingMachine = () => {
               }
           <button className="produtos-button" onClick={handleEscolher}>Escolher Produtos</button>
           <button className="produtos-button" onClick={handleCancelar}>Cancelar</button>
+          <Link to={`/config/`} className="config">
+            <button className="produtos-button" >Configurar</button>  
+                </Link>
         </div>
       
       {troco && (
@@ -357,6 +359,12 @@ const VendingMachine = () => {
     </div>
   );
 };
+function DetailsErrorBoundary(props) {
+  return(
+      <ErrorBoundary>
+          <VendingMachine {...props}/>
+      </ErrorBoundary>
+  )
+}
 
-
-export default VendingMachine;
+export default DetailsErrorBoundary;
