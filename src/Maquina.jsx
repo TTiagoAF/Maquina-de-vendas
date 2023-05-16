@@ -10,6 +10,18 @@ const VendingMachine = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [total, setTotal] = useState(10); // Valor total do moedeiro
+  const storedData = localStorage.getItem("HotWheels");
+  const precoquantidade = JSON.parse(storedData);
+  const preco = precoquantidade.preco;
+  const [quantidade, setQuantidade] = useState(precoquantidade.quantidade);
+  const storedData2 = localStorage.getItem("Peluches");
+  const precoquantidade2 = JSON.parse(storedData2);
+  const preco2 = precoquantidade2.preco;
+  const [quantidade2, setQuantidade2] = useState(precoquantidade2.quantidade);
+  const storedData3 = localStorage.getItem("Puzzle");
+  const precoquantidade3 = JSON.parse(storedData3);
+  const preco3 = precoquantidade3.preco;
+  const [quantidade3, setQuantidade3] = useState(precoquantidade3.quantidade)
   const [stock, setStock] = useState({
     HotWheels: 20,
     Peluche: 5,
@@ -162,9 +174,13 @@ const VendingMachine = () => {
       setMoedas((moedas) => moedas + moedasinseridas);
       setMoedasInseridas(0);
       setTotal((moedasInseridas) => moedasInseridas + preco);
+      setQuantidade((quantidade) => quantidade - 1);
+      setQuantidade2((quantidade2) => quantidade2 - 1);
+      setQuantidade3((quantidade3) => quantidade3 - 1);
       setStock((prevStock) => ({
         ...prevStock,
         [selecionar]: prevStock[selecionar] - 1,
+        
       }));
     }
     else if (falta < 0) {
@@ -227,24 +243,24 @@ const VendingMachine = () => {
       {stock.HotWheels > 0 && escolher === true &&(
         <Produto
           nome="HotWheels"
-          preco={precoprodutos.HotWheels}
-          estoque={stock.HotWheels}
+          preco={preco}
+          estoque={quantidade}
           onSelecionar={() => handleselecaoproduto("HotWheels")}
         />
       )}
         {stock.Peluche > 0 && escolher === true &&(
         <Produto
           nome="Peluche"
-          preco={precoprodutos.Peluche}
-          estoque={stock.Peluche}
+          preco={preco2}
+          estoque={quantidade2}
           onSelecionar={() => handleselecaoproduto("Peluche")}
         />
       )}
        {stock.Puzzle > 0 && escolher === true &&(
         <Produto
           nome="Puzzle"
-          preco={precoprodutos.Puzzle}
-          estoque={stock.Puzzle}
+          preco={preco3}
+          estoque={quantidade3}
           onSelecionar={() => handleselecaoproduto("Puzzle")}
         />
       )}

@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Escolher(props) {
+  const [preco, setPreco] = useState('');
+  const [quantidade, setQuantidade] = useState('');
+
+  const handlePrecoChange = (event) => {
+    setPreco(event.target.value);
+  };
+
+  const handleQuantidadeChange = (event) => {
+    setQuantidade(event.target.value);
+  };
+
+  const handleConfirm = () => {
+    props.onConfirm(props.name, preco, quantidade);
+  };
+
   return (
     <li>
-      <h1>{props.nome}</h1>
+      <h1>{props.name}</h1>
       <p>Preço:</p>
-      <input type="number" max={99} />
+      <input type="number" value={preco} max={99} onChange={handlePrecoChange} />
       <p>Quantidade:</p>
-      <input type="number" max={99} />
-      <button className="produtos_button" onClick={() => props.onConfirm(props.nome)}>
+      <input type="number" value={quantidade} max={99} onChange={handleQuantidadeChange} />
+      <button className="produtos_button" onClick={handleConfirm}>
         Confirm
       </button>
     </li>

@@ -3,38 +3,46 @@ import Escolher from './Escolher';
 import './Config.css'
 
 const Config = () => {
+  const namesProdutos = [
+    "HotWheels",
+    "Peluches",
+    "Puzzle",
+    "Piões",
+    "Lego",
+    "Comboio",
+    "Nenuco",
+    "Nerf",
+    "Barbie",
+    "Cubo",
+    "Berlindes",
+    "Pops",
+  ];
 
-    const nomesProdutos = [
-        "HotWheels",
-        "Peluches",
-        "Puzzle",
-        "Piões",
-        "Lego",
-        "Comboio",
-        "Nenuco",
-        "Nerf",
-        "Barbie",
-        "Cubo",
-        "Berlindes",
-        "Pops",
-      ];
-        
-      const handleConfirm = (nome) => {
-        console.log(nome);
+  const handleConfirm = (name, preco, quantidade) => {
+    const precoquantidade = {
+        preco,
+        quantidade
       };
-    return (
-        <div>
-            <h1>Configurar stocks e preços</h1>
-            <Link to={`/`} className="config">
-            <button className="produtos-button" >Inicio</button>
-                </Link>
-                <ul className="produtos-config">
-                    {nomesProdutos.map((nome) => (
-                    <Escolher nome={nome} key={nome} onConfirm={() => handleConfirm(nome)}/>
-                ))}
-            </ul>
-        </div>
-    );
+      localStorage.setItem(name, JSON.stringify(precoquantidade));
+  };
+
+  return (
+    <div>
+      <h1>Configurar stocks e preços</h1>
+      <Link to={`/`} className="config">
+        <button className="produtos-button">Inicio</button>
+      </Link>
+      <ul className="produtos-config">
+        {namesProdutos.map((name) => (
+          <Escolher
+            name={name}
+            key={name}
+            onConfirm={handleConfirm}
+          />
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default Config;
