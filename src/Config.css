@@ -1,0 +1,11 @@
+.produtos_button {
+    background-color: #000000;
+    padding: 5px 25px;
+    color: white;
+    font-size: 18px;
+    border: #333 1px solid;
+    border-radius: 5px;
+    display: block;
+    cursor: pointer;
+    margin-top: 20px;
+  }

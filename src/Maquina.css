@@ -40,6 +40,15 @@
     padding: 35px 15px 15px 15px;
     padding-bottom: 250px;
   }
+  .produtos-config {
+    margin-top: 10px;
+    border-radius: 6px;
+    background: #faeff0;
+    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+    width: 1535px;
+    padding: 35px 15px 15px 15px;
+    padding-bottom: 250px;
+  }
   .produtos-button {
     background-color: #000000;
     padding: 5px 25px;
