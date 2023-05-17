@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Escolher from './Escolher';
 import './Config.css';
 import Tabela from "./Tabela";
+import { useState } from "react";
 
 const Config = () => {
   const namesProdutos = [
@@ -18,6 +19,7 @@ const Config = () => {
     "Berlindes",
     "Pops",
   ];
+  const [dinheiro, ] = useState(JSON.parse(localStorage.getItem('dinheiro')));
 
   const handleConfirm = (name, preco, quantidade) => {
     const precoquantidade = {
@@ -30,6 +32,7 @@ const Config = () => {
   return (
     <div>
       <h1>Configurar stocks e preços</h1>
+      <p className="dinheiro">Montante conseguido: {dinheiro !== null || dinheiro !== undefined ? parseFloat(dinheiro).toFixed(2) : localStorage.setItem("dinheiro", JSON.stringify(0))}€</p>
       <Link to={`/`} className="config">
         <button className="produtos-button">Inicio</button>
       </Link>
@@ -41,6 +44,7 @@ const Config = () => {
             onConfirm={handleConfirm}
           />
         ))}
+        <br />
         <Tabela/>
       </ul>
     </div>

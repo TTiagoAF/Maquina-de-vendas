@@ -199,7 +199,6 @@ const VendingMachine = () => {
       <h1>Vending Machine</h1>
       <p className="total">Valor total no moedeiro: {total !== null || total !== undefined ? parseFloat(total).toFixed(2) : 0}€</p>
       <p className="quantidade">Moedas existentes no moedeiro: {moedas}</p>
-      <p className="dinheiro">Montante conseguido: {total !== null || total !== undefined ? parseFloat(dinheiro).toFixed(2) : localStorage.setItem("dinheiro", JSON.stringify(0))}€</p>
                   <button className="modal-button" onClick={() => setShowModal(true)}>Ver lista de compras</button>
                     {
                         showModal ?
