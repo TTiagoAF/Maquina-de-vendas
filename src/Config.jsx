@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Escolher from './Escolher';
-import './Config.css'
+import './Config.css';
+import Tabela from "./Tabela";
 
 const Config = () => {
   const namesProdutos = [
@@ -41,6 +42,7 @@ const Config = () => {
           />
         ))}
       </ul>
+      <Tabela/>
     </div>
   );
 };
