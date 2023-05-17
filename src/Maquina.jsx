@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const VendingMachine = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
-  const [total, setTotal] = useState(10.00); // Valor total do moedeiro
+  const [total, setTotal] = useState(parseFloat(10.00)); // Valor total do moedeiro
   const [stock, setStock] = useState({
     HotWheels: JSON.parse(localStorage.getItem('HotWheels')).quantidade,
     Peluche: JSON.parse(localStorage.getItem('Peluches')).quantidade,
@@ -25,6 +25,7 @@ const VendingMachine = () => {
     Pops: JSON.parse(localStorage.getItem('Pops')).quantidade,
   });
   const [selecionar, setSelecionar] = useState(""); // produto selecionado
+  const [dinheiro, setDinheiro] = useState(0);
   const [inserido, setInserido] = useState(0); // dinheiro introduzido
   const [troco, setTroco] = useState(false); // mostra o troco
   const [moedas, setMoedas] = useState(50);
@@ -148,7 +149,8 @@ const VendingMachine = () => {
       setMoedasInseridas((moedasinseridas) => moedasinseridas + 1)
       setMoedas((moedas) => moedas + moedasinseridas);
       setMoedasInseridas(0);
-      setTotal((moedasInseridas) =>  moedasInseridas + preco);
+      setDinheiro((dinheiro) => dinheiro + parseFloat(preco));
+      setTotal((moedasInseridas) =>  moedasInseridas + parseFloat(preco));
       setStock((prevStock) => ({
         ...prevStock,
         [selecionar]: prevStock[selecionar] - 1,
@@ -174,6 +176,7 @@ const VendingMachine = () => {
       <h1>Vending Machine</h1>
       <p className="total">Valor total no moedeiro: {total !== null || total !== undefined ? parseFloat(total).toFixed(2) : 0}€</p>
       <p className="quantidade">Moedas existentes no moedeiro: {moedas}</p>
+      <p className="dinheiro">Montante conseguido: {dinheiro.toFixed(2)}€</p>
                   <button className="modal-button" onClick={() => setShowModal(true)}>Ver lista de compras</button>
                     {
                         showModal ?
@@ -281,6 +284,8 @@ const VendingMachine = () => {
           <p>Troco: {(inserido - precoprodutos[selecionar]).toFixed(2)}€</p>
           <button className="produtos-button" onClick={handleTroco}>Recolher troco</button>
         </div>
+
+        
       )}
     </div>
   );
