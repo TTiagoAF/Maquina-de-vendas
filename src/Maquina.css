@@ -98,7 +98,7 @@
     cursor: pointer;
     margin-top: 50px;
   }
-  .HotWheels{
+  .HotWheel{
     position: absolute;
     margin-left: 430px;
     text-align: center;
@@ -108,56 +108,56 @@
     margin-left: 655px;
     text-align: center;
   }
-  .Puzzle{
+  .Puzzles{
     position: absolute;
     margin-left: 890px;
     text-align: center;
   }
-  .Piões{
+  .Pião{
     position: absolute;
     margin-left: 1110px;
     text-align: center;
   }
-  .Lego{
+  .Legos{
     position: absolute;
     margin-left: 1330px;
     text-align: center;
   }
-  .Comboio{
+  .Comboios{
     position: absolute;
     margin-left: 220px;
     text-align: center;
   }
-  .Nenuco{
+  .Nenucos{
     position: absolute;
     margin-left: 10px;
     text-align: center;
   }
-  .Nerf{
+  .Nerfs{
     margin-top: 120px;
     position: absolute;
     margin-left: 220px;
     text-align: center;
   }
-  .Barbie{
+  .Barbies{
     margin-top: 120px;
     position: absolute;
     margin-left: 430px;
     text-align: center;
   }
-  .Cubo{
+  .Cubos{
     margin-top: 120px;
     position: absolute;
     margin-left: 655px;
     text-align: center;
   }
-  .Berlindes{
+  .Berlinde{
     margin-top: 120px;
     position: absolute;
     margin-left: 890px;
     text-align: center;
   }
-  .Pops{
+  .Pop{
     margin-top: 120px;
     position: absolute;
     margin-left: 1110px;

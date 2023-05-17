@@ -12,18 +12,18 @@ const VendingMachine = () => {
   const [showModal2, setShowModal2] = useState(false);
   const [total, setTotal] = useState(parseFloat(10.00)); // Valor total do moedeiro
   const [stock, setStock] = useState({
-    HotWheels: JSON.parse(localStorage.getItem('HotWheels')).quantidade,
+    HotWheel: JSON.parse(localStorage.getItem('HotWheels')).quantidade,
     Peluche: JSON.parse(localStorage.getItem('Peluches')).quantidade,
-    Puzzle: JSON.parse(localStorage.getItem('Puzzle')).quantidade,
-    Piões: JSON.parse(localStorage.getItem('Piões')).quantidade,
-    Lego: JSON.parse(localStorage.getItem('Lego')).quantidade,
-    Comboio: JSON.parse(localStorage.getItem('Comboio')).quantidade,
-    Nenuco: JSON.parse(localStorage.getItem('Nenuco')).quantidade,
-    Nerf: JSON.parse(localStorage.getItem('Nerf')).quantidade,
-    Barbie: JSON.parse(localStorage.getItem('Barbie')).quantidade,
-    Cubo: JSON.parse(localStorage.getItem('Cubo')).quantidade,
-    Berlindes: JSON.parse(localStorage.getItem('Berlindes')).quantidade,
-    Pops: JSON.parse(localStorage.getItem('Pops')).quantidade,
+    Puzzles: JSON.parse(localStorage.getItem('Puzzle')).quantidade,
+    Pião: JSON.parse(localStorage.getItem('Piões')).quantidade,
+    Legos: JSON.parse(localStorage.getItem('Lego')).quantidade,
+    Comboios: JSON.parse(localStorage.getItem('Comboio')).quantidade,
+    Nenucos: JSON.parse(localStorage.getItem('Nenuco')).quantidade,
+    Nerfs: JSON.parse(localStorage.getItem('Nerf')).quantidade,
+    Barbies: JSON.parse(localStorage.getItem('Barbie')).quantidade,
+    Cubos: JSON.parse(localStorage.getItem('Cubo')).quantidade,
+    Berlinde: JSON.parse(localStorage.getItem('Berlindes')).quantidade,
+    Pop: JSON.parse(localStorage.getItem('Pops')).quantidade,
   });
   const [selecionar, setSelecionar] = useState(""); // produto selecionado
   const [dinheiro, setDinheiro] = useState(JSON.parse(localStorage.getItem('dinheiro')));
@@ -51,19 +51,33 @@ const VendingMachine = () => {
   values.push(value);
 }
   const precoprodutos = {
-    HotWheels: JSON.parse(localStorage.getItem('HotWheels')).preco,
+    HotWheel: JSON.parse(localStorage.getItem('HotWheels')).preco,
     Peluche: JSON.parse(localStorage.getItem('Peluches')).preco,
-    Puzzle: JSON.parse(localStorage.getItem('Puzzle')).preco,
-    Piões: JSON.parse(localStorage.getItem('Piões')).preco,
-    Lego: JSON.parse(localStorage.getItem('Lego')).preco,
-    Comboio: JSON.parse(localStorage.getItem('Comboio')).preco,
-    Nenuco: JSON.parse(localStorage.getItem('Nenuco')).preco,
-    Nerf: JSON.parse(localStorage.getItem('Nerf')).preco,
-    Barbie: JSON.parse(localStorage.getItem('Barbie')).preco,
-    Cubo: JSON.parse(localStorage.getItem('Cubo')).preco,
-    Berlindes: JSON.parse(localStorage.getItem('Berlindes')).preco,
-    Pops: JSON.parse(localStorage.getItem('Pops')).preco,
+    Puzzles: JSON.parse(localStorage.getItem('Puzzle')).preco,
+    Pião: JSON.parse(localStorage.getItem('Piões')).preco,
+    Legos: JSON.parse(localStorage.getItem('Lego')).preco,
+    Comboios: JSON.parse(localStorage.getItem('Comboio')).preco,
+    Nenucos: JSON.parse(localStorage.getItem('Nenuco')).preco,
+    Nerfs: JSON.parse(localStorage.getItem('Nerf')).preco,
+    Barbies: JSON.parse(localStorage.getItem('Barbie')).preco,
+    Cubos: JSON.parse(localStorage.getItem('Cubo')).preco,
+    Berlinde: JSON.parse(localStorage.getItem('Berlindes')).preco,
+    Pop: JSON.parse(localStorage.getItem('Pops')).preco,
   };
+  const [qtd, setQtd] = useState({
+    HotWheel: JSON.parse(localStorage.getItem("HotWheel")),
+    Peluche: JSON.parse(localStorage.getItem("Peluche")),
+    Puzzles: JSON.parse(localStorage.getItem("Puzzles")),
+    Pião: JSON.parse(localStorage.getItem("Pião")),
+    Legos: JSON.parse(localStorage.getItem("Legos")),
+    Comboios: JSON.parse(localStorage.getItem("Comboios")),
+    Nenucos: JSON.parse(localStorage.getItem("Nenucos")),
+    Nerfs: JSON.parse(localStorage.getItem("Nerfs")),
+    Barbies: JSON.parse(localStorage.getItem("Barbies")),
+    Cubos: JSON.parse(localStorage.getItem("Cubos")),
+    Berlinde: JSON.parse(localStorage.getItem("Berlinde")),
+    Pop: JSON.parse(localStorage.getItem("Pop")),
+  });
   let Brinquedos = {};
   for (let key in localStorage) {
     if (key.startsWith('Brinquedos')) {
@@ -157,6 +171,11 @@ const VendingMachine = () => {
         [selecionar]: prevStock[selecionar] - 1,
         
       }));
+      setQtd((prevQtd) => ({
+        ...prevQtd,
+        [selecionar]: prevQtd[selecionar] + 1,
+        
+      }));
       setComprar(false);
     }
     else if (falta < 0) {
@@ -169,7 +188,7 @@ const VendingMachine = () => {
     setComprar(false);
     setInserido(0);
     localStorage.setItem("dinheiro", JSON.stringify(dinheiro));
-    localStorage.setItem([selecionar], JSON.stringify(stock[selecionar]));
+    localStorage.setItem([selecionar], JSON.stringify(qtd[selecionar]));
     setSelecionar("");
     Brinquedos.tipo = [selecionar], Brinquedos.data = data, Brinquedos.troco = [inserido-precoprodutos[selecionar]], Brinquedos.gasto = precoprodutos[selecionar];
     localStorage.setItem(data, JSON.stringify(Brinquedos));
@@ -218,41 +237,41 @@ const VendingMachine = () => {
       </div>
       <h2>Produtos disponíveis:</h2>
       <ul className="produtos-form">
-      {stock.HotWheels > 0 && escolher === true &&(
-        <Produto nome="HotWheels" preco={precoprodutos.HotWheels} estoque={stock.HotWheels} onSelecionar={() => handleselecaoproduto("HotWheels")}/>
+      {stock.HotWheel > 0 && escolher === true &&(
+        <Produto nome="HotWheel" preco={precoprodutos.HotWheel} estoque={stock.HotWheel} onSelecionar={() => handleselecaoproduto("HotWheel")}/>
       )}
         {stock.Peluche > 0 && escolher === true &&(
         <Produto nome="Peluche" preco={precoprodutos.Peluche} estoque={stock.Peluche} onSelecionar={() => handleselecaoproduto("Peluche")}/>
       )}
-       {stock.Puzzle > 0 && escolher === true &&(
-        <Produto nome="Puzzle" preco={precoprodutos.Puzzle} estoque={stock.Puzzle} onSelecionar={() => handleselecaoproduto("Puzzle")}/>
+       {stock.Puzzles > 0 && escolher === true &&(
+        <Produto nome="Puzzles" preco={precoprodutos.Puzzles} estoque={stock.Puzzles} onSelecionar={() => handleselecaoproduto("Puzzles")}/>
       )}
-      {stock.Piões > 0 && escolher === true &&(
-        <Produto nome="Piões" preco={precoprodutos.Piões} estoque={stock.Piões} onSelecionar={() => handleselecaoproduto("Piões")}/>
+      {stock.Pião > 0 && escolher === true &&(
+        <Produto nome="Pião" preco={precoprodutos.Pião} estoque={stock.Pião} onSelecionar={() => handleselecaoproduto("Pião")}/>
       )}
-      {stock.Lego > 0 && escolher === true &&(
-        <Produto nome="Lego" preco={precoprodutos.Lego} estoque={stock.Lego} onSelecionar={() => handleselecaoproduto("Lego")}/>
+      {stock.Legos > 0 && escolher === true &&(
+        <Produto nome="Legos" preco={precoprodutos.Legos} estoque={stock.Legos} onSelecionar={() => handleselecaoproduto("Legos")}/>
       )}
-      {stock.Comboio > 0 && escolher === true &&(
-        <Produto nome="Comboio" preco={precoprodutos.Comboio} estoque={stock.Comboio} onSelecionar={() => handleselecaoproduto("Comboio")}/>
+      {stock.Comboios > 0 && escolher === true &&(
+        <Produto nome="Comboios" preco={precoprodutos.Comboios} estoque={stock.Comboios} onSelecionar={() => handleselecaoproduto("Comboios")}/>
       )}
-      {stock.Nenuco > 0 && escolher === true &&(
-        <Produto nome="Nenuco" preco={precoprodutos.Nenuco} estoque={stock.Nenuco} onSelecionar={() => handleselecaoproduto("Nenuco")}/>
+      {stock.Nenucos > 0 && escolher === true &&(
+        <Produto nome="Nenucos" preco={precoprodutos.Nenucos} estoque={stock.Nenucos} onSelecionar={() => handleselecaoproduto("Nenucos")}/>
       )}
-      {stock.Nerf > 0 && escolher === true &&(
-        <Produto nome="Nerf" preco={precoprodutos.Nerf} estoque={stock.Nerf} onSelecionar={() => handleselecaoproduto("Nerf")}/>
+      {stock.Nerfs > 0 && escolher === true &&(
+        <Produto nome="Nerfs" preco={precoprodutos.Nerfs} estoque={stock.Nerfs} onSelecionar={() => handleselecaoproduto("Nerfs")}/>
       )}
-      {stock.Barbie > 0 && escolher === true &&(
-        <Produto nome="Barbie" preco={precoprodutos.Barbie} estoque={stock.Barbie} onSelecionar={() => handleselecaoproduto("Barbie")}/>
+      {stock.Barbies > 0 && escolher === true &&(
+        <Produto nome="Barbies" preco={precoprodutos.Barbies} estoque={stock.Barbies} onSelecionar={() => handleselecaoproduto("Barbies")}/>
       )}
-      {stock.Cubo > 0 && escolher === true &&(
-        <Produto nome="Cubo" preco={precoprodutos.Cubo} estoque={stock.Cubo} onSelecionar={() => handleselecaoproduto("Cubo")}/>
+      {stock.Cubos > 0 && escolher === true &&(
+        <Produto nome="Cubos" preco={precoprodutos.Cubos} estoque={stock.Cubos} onSelecionar={() => handleselecaoproduto("Cubos")}/>
       )}
-      {stock.Berlindes > 0 && escolher === true &&(
-        <Produto nome="Berlindes" preco={precoprodutos.Berlindes} estoque={stock.Berlindes} onSelecionar={() => handleselecaoproduto("Berlindes")}/>
+      {stock.Berlinde > 0 && escolher === true &&(
+        <Produto nome="Berlinde" preco={precoprodutos.Berlinde} estoque={stock.Berlinde} onSelecionar={() => handleselecaoproduto("Berlinde")}/>
       )}
-      {stock.Pops > 0 && escolher === true &&(
-        <Produto nome="Pops" preco={precoprodutos.Pops} estoque={stock.Pops} onSelecionar={() => handleselecaoproduto("Pops")}/>
+      {stock.Pop > 0 && escolher === true &&(
+        <Produto nome="Pop" preco={precoprodutos.Pop} estoque={stock.Pop} onSelecionar={() => handleselecaoproduto("Pop")}/>
       )}
       </ul>
         <div className="pagar-produtos">
@@ -287,6 +306,7 @@ const VendingMachine = () => {
           <p>Por favor recolha o seu brinquedo</p>
           <p>Troco: {(inserido - precoprodutos[selecionar]).toFixed(2)}€</p>
           <button className="produtos-button" onClick={handleTroco}>Recolher troco</button>
+          
         </div>
       )}
     </div>

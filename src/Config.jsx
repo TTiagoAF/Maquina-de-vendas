@@ -41,8 +41,8 @@ const Config = () => {
             onConfirm={handleConfirm}
           />
         ))}
+        <Tabela/>
       </ul>
-      <Tabela/>
     </div>
   );
 };
