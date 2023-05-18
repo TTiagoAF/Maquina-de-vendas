@@ -216,6 +216,9 @@ const ChartExample = () => {
       fontSize: 18,
       spacing: 25,
     },
+    footnote: {
+      text: 'Meses',
+    },
     padding: {
       left: 40,
       right: 40,
@@ -307,19 +310,21 @@ const ChartExample = () => {
       },
     ],
     axes: [
+      
+      {
+        type: 'number',
+        position: 'left',
+        title: {
+          text: "N produtos",
+        },
+      },
       {
         position: 'bottom',
         type: 'text',
         title: {
-          text: 'Meses',
+          text: "Mêses",
         },
-      },
-      {
-        position: 'left',
-        type: 'number',
-        title: {
-          text: 'Magnitude',
-        },
+        
       },
     ],
     legend: {

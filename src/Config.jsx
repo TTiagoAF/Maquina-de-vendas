@@ -47,6 +47,8 @@ const Config = () => {
         ))}
         <br />
         <Tabela/>
+        <br />
+        <br />
         <ChartExample/>
       </ul>
     </div>
