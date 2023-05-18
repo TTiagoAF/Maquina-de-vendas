@@ -39,6 +39,7 @@ const VendingMachine = () => {
   const [checkdois, setCheckdois] = useState(false);
   const [, setConcluido] = useState(false); 
   const data = moment().format('Do, h:mm:ss a');
+  const teste = moment().format('MMM');
   const [moedasinseridas, setMoedasInseridas] = useState(0);
   let keys = [];
   let values = [];
@@ -78,15 +79,33 @@ const VendingMachine = () => {
     Berlinde: JSON.parse(localStorage.getItem("Berlinde")),
     Pop: JSON.parse(localStorage.getItem("Pop")),
   });
+  const [vendas, setVendas] = useState({
+    HotWheel: JSON.parse(localStorage.getItem("HotWheel" + teste)),
+    Peluche: JSON.parse(localStorage.getItem("Peluche" + teste)),
+    Puzzles: JSON.parse(localStorage.getItem("Puzzles" + teste)),
+    Pião: JSON.parse(localStorage.getItem("Pião" + teste)),
+    Legos: JSON.parse(localStorage.getItem("Legos" + teste)),
+    Comboios: JSON.parse(localStorage.getItem("Comboios" + teste)),
+    Nenucos: JSON.parse(localStorage.getItem("Nenucos" + teste)),
+    Nerfs: JSON.parse(localStorage.getItem("Nerfs" + teste)),
+    Barbies: JSON.parse(localStorage.getItem("Barbies" + teste)),
+    Cubos: JSON.parse(localStorage.getItem("Cubos" + teste)),
+    Berlinde: JSON.parse(localStorage.getItem("Berlinde" + teste)),
+    Pop: JSON.parse(localStorage.getItem("Pop" + teste)),
+  });
+  
+  
   let Brinquedos = {};
   for (let key in localStorage) {
     if (key.startsWith('Brinquedos')) {
       Brinquedos = {...Brinquedos, ...JSON.parse(localStorage.getItem(key))}
     }
   }
+ 
   useEffect(() => {
     console.log("Oi", localStorage)
   },[])
+  
   const handleselecaoproduto = (produto) => {
     setSelecionar(produto);
     setConcluido(false);
@@ -177,6 +196,11 @@ const VendingMachine = () => {
         
       }));
       setComprar(false);
+      setVendas((prevVendas) => ({
+        ...prevVendas,
+        [selecionar]: prevVendas[selecionar] + 1,
+        
+      }));
     }
     else if (falta < 0) {
       alert("Insira mais dinheiro");
@@ -189,6 +213,7 @@ const VendingMachine = () => {
     setInserido(0);
     localStorage.setItem("dinheiro", JSON.stringify(dinheiro));
     localStorage.setItem([selecionar], JSON.stringify(qtd[selecionar]));
+    localStorage.setItem([selecionar] + teste, JSON.stringify(vendas[selecionar]));
     setSelecionar("");
     Brinquedos.tipo = [selecionar], Brinquedos.data = data, Brinquedos.troco = [inserido-precoprodutos[selecionar]], Brinquedos.gasto = precoprodutos[selecionar];
     localStorage.setItem(data, JSON.stringify(Brinquedos));

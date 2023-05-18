@@ -3,6 +3,7 @@ import Escolher from './Escolher';
 import './Config.css';
 import Tabela from "./Tabela";
 import { useState } from "react";
+import ChartExample from "./Teste";
 
 const Config = () => {
   const namesProdutos = [
@@ -46,6 +47,7 @@ const Config = () => {
         ))}
         <br />
         <Tabela/>
+        <ChartExample/>
       </ul>
     </div>
   );
