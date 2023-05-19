@@ -7,29 +7,27 @@ import ChartExample from "./Teste";
 
 const Config = () => {
   const namesProdutos = [
-    "HotWheels",
-    "Peluches",
-    "Puzzle",
-    "Piões",
-    "Lego",
-    "Comboio",
-    "Nenuco",
-    "Nerf",
-    "Barbie",
-    "Cubo",
-    "Berlindes",
-    "Pops",
+    "HotWheel",
+    "Peluche",
+    "Puzzles",
+    "Pião",
+    "Legos",
+    "Comboios",
+    "Nenucos",
+    "Nerfs",
+    "Barbies",
+    "Cubos",
+    "Berlinde",
+    "Pop",
   ];
   const [dinheiro, ] = useState(JSON.parse(localStorage.getItem('dinheiro')));
-
   const handleConfirm = (name, preco, quantidade) => {
     const precoquantidade = {
         preco,
         quantidade
       };
-      localStorage.setItem(name, JSON.stringify(precoquantidade));
+      localStorage.setItem(name + 1, JSON.stringify(precoquantidade));
   };
-
   return (
     <div>
       <h1>Configurar stocks e preços</h1>

@@ -172,7 +172,6 @@ var data = {
       ],
   };
   
-
 const ChartExample = () => {
   const [options,] = useState({
     theme: {

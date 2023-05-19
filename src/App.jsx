@@ -13,11 +13,10 @@ const queryClient = new QueryClient({
         },
     },
 });
-
 class App extends Component {
     render() {
     return(
-    <BrowserRouter>
+        <BrowserRouter>
         <QueryClientProvider client={queryClient}>
                 <Routes>
                     <Route path="/Config/" element={<Config />}/>
@@ -28,7 +27,6 @@ class App extends Component {
     );
     }
 }
-
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(<App />);

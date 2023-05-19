@@ -8,5 +8,4 @@ function Produto({ nome, preco, estoque, onSelecionar }) {
     </li>
   );
 }
-
 export default Produto
