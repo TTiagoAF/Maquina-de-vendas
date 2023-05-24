@@ -9,11 +9,11 @@ import { Link } from "react-router-dom";
 const VendingMachine = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
-  const [total, setTotal] = useState(parseFloat(10.00)); // Valor total do moedeiro
-  const [selecionar, setSelecionar] = useState(""); // produto selecionado
+  const [total, setTotal] = useState(parseFloat(10.00));
+  const [selecionar, setSelecionar] = useState("");
   const [dinheiro, setDinheiro] = useState(JSON.parse(localStorage.getItem('dinheiro')));
-  const [inserido, setInserido] = useState(0); // dinheiro introduzido
-  const [troco, setTroco] = useState(false); // mostra o troco
+  const [inserido, setInserido] = useState(0);
+  const [troco, setTroco] = useState(false);
   const [escolher, setEscolher] = useState(false);
   const [comprar, setComprar] = useState(false);
   const [checkdez, setCheckdez] = useState(false);

@@ -14,7 +14,7 @@ function Escolher(props) {
     {
       alert("Falta inserir o preço ou a quantidade");
     } else {
-      props.onConfirm(props.name, preco, quantidade);
+      props.onConfirm(props.name, parseFloat(preco).toFixed(2), quantidade);
       setPreco('');
       setQuantidade('');
       localStorage.setItem(props.name + "2", JSON.stringify(0));

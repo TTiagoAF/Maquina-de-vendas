@@ -4,8 +4,8 @@
   padding: 15px;
   margin-bottom: 25px;
   border-radius: 6px;
-  background: #faeff0;
-  box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+  background: #ffffff;
+  box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #000;
   color: #000000;
   text-align: center;
   position: absolute;
@@ -17,14 +17,15 @@
   margin-bottom: 25px;
   margin-left: 610px;
   border-radius: 6px;
-  background: #faeff0;
-  box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+  background: #ffffff;
+  box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #000;
   color: #000000;
   text-align: center;
   position: absolute;
 }
   div > h1{
     text-align: center;
+    color: #000000;
   }
   div > h2{
     text-align: center;
@@ -34,7 +35,7 @@
     margin-top: 10px;
     border-radius: 6px;
     background: #faeff0;
-    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #000;
     width: 1535px;
     padding: 35px 15px 15px 15px;
     padding-bottom: 250px;
@@ -43,10 +44,11 @@
     margin-top: 10px;
     border-radius: 6px;
     background: #faeff0;
-    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #000;
     width: 1535px;
     padding: 35px 15px 15px 15px;
-    padding-bottom: 250px;
+    padding-bottom: 150px;
+    margin-top: 20px;
   }
   .produtos-button {
     background-color: #000000;
@@ -70,7 +72,7 @@
     display: block;
     margin: 0 auto;
     cursor: pointer;
-    margin-top: 150px;
+    margin-top: 100px;
   }
 
   .modal-buttons {
@@ -158,7 +160,7 @@
     margin-left: 600px;
     border-radius: 6px;
     background: #faeff0;
-    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #000;
     color: #000000;
     text-align: center;
   }
@@ -170,7 +172,7 @@
     margin-left: 600px;
     border-radius: 6px;
     background: #faeff0;
-    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #000;
     color: #000000;
     text-align: center;
   }
@@ -178,11 +180,11 @@
     width: 300px;
     margin: 0 auto;
     padding: 15px;
-    margin-left: 615px;
-    margin-top: 50px;
+    margin-left: 610px;
+    margin-top: 30px;
     border-radius: 6px;
-    background: #faeff0;
-    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+    background: #ffffff;
+    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #000;
     color: #000000;
     text-align: center;
   }
