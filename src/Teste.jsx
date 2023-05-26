@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { AgChartsReact } from 'ag-charts-react';
 
-function createProductObject(productName) {
+// Guarda o mês e a quantidade vendas de cada mês de cada produto
+function BrinquedoObjeto(NomeBrinquedo) {
   return [
     { time: 'Janeiro', Vendas: 0 },
     { time: 'Fevereiro', Vendas: 0 },
     { time: 'Março', Vendas: 0 },
     { time: 'Abril', Vendas: 0 },
-    { time: 'Maio', Vendas: JSON.parse(localStorage.getItem(`${productName}May`)) },
+    { time: 'Maio', Vendas: JSON.parse(localStorage.getItem(`${NomeBrinquedo}May`)) },
     { time: 'Junho', Vendas: 0 },
     { time: 'Julho', Vendas: 0 },
     { time: 'Agosto', Vendas: 0 },
@@ -17,22 +18,22 @@ function createProductObject(productName) {
     { time: 'Dezembro', Vendas: 0 },
   ];
 }
-
+// Guarda o nome de cada brinquedo
 var data = {
-  ho: createProductObject('HotWheel'),
-  pe: createProductObject('Peluche'),
-  pu: createProductObject('Puzzles'),
-  pi: createProductObject('Pião'),
-  Le: createProductObject('Legos'),
-  Co: createProductObject('Comboios'),
-  Ne: createProductObject('Nenucos'),
-  Nerf: createProductObject('Nerfs'),
-  Ba: createProductObject('Barbies'),
-  Cubo: createProductObject('Cubos'),
-  Be: createProductObject('Berlinde'),
-  Po: createProductObject('Pop'),
+  ho: BrinquedoObjeto('HotWheel'),
+  pe: BrinquedoObjeto('Peluche'),
+  pu: BrinquedoObjeto('Puzzles'),
+  pi: BrinquedoObjeto('Pião'),
+  Le: BrinquedoObjeto('Legos'),
+  Co: BrinquedoObjeto('Comboios'),
+  Ne: BrinquedoObjeto('Nenucos'),
+  Nerf: BrinquedoObjeto('Nerfs'),
+  Ba: BrinquedoObjeto('Barbies'),
+  Cubo: BrinquedoObjeto('Cubos'),
+  Be: BrinquedoObjeto('Berlinde'),
+  Po: BrinquedoObjeto('Pop'),
 };
-  
+  // Escolha de cores para cada produto
 const ChartExample = () => {
   const [options,] = useState({
     theme: {
@@ -83,6 +84,7 @@ const ChartExample = () => {
       left: 40,
       right: 40,
     },
+    // Mostra as linhas no gráfico de cada Brinquedo
     series: [
       {
         data: data.ho,

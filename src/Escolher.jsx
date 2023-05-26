@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 function Escolher(props) {
+  //Guarda o preço e quantidade de cada brinquedo
   const [preco, setPreco] = useState('');
   const [quantidade, setQuantidade] = useState('');
   const handlePrecoChange = (event) => {
@@ -9,6 +10,7 @@ function Escolher(props) {
   const handleQuantidadeChange = (event) => {
     setQuantidade(event.target.value);
   };
+  //Verifica se ele inseriu alguma coisa no input do preço e da quantidade se ele tiver inseido ele guarda nas variáveis a quantidade e preço
   const handleConfirm = () => {
     if(preco === "" || quantidade === "")
     {
@@ -21,6 +23,7 @@ function Escolher(props) {
     }
     
   };
+  // input do preço e da quantidade e botão para confirmar a inserção
   return (
     <li>
       <h1>{props.name}</h1>

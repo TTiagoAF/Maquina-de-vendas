@@ -6,6 +6,7 @@ import { useState } from "react";
 import ChartExample from "./Teste";
 
 const Config = () => {
+  // Guarda o nome de cada Brinquedo
   const namesProdutos = [
     "HotWheel",
     "Peluche",
@@ -20,7 +21,9 @@ const Config = () => {
     "Berlinde",
     "Pop",
   ];
+  // Guarda o valor total de faturação
   const [dinheiro, ] = useState(JSON.parse(localStorage.getItem('dinheiro')));
+  //Manda para a localstorage o preço e quantidade de cada brinquedo sendo o nome do brinquedo a chave
   const handleConfirm = (name, preco, quantidade) => {
     const precoquantidade = {
         preco,
@@ -28,6 +31,7 @@ const Config = () => {
       };
       localStorage.setItem(name + 1, JSON.stringify(precoquantidade));
   };
+  // Mostra o Escolher, a tabela e o gráfico
   return (
     <div>
       <h1>Configurar stocks e preços</h1>

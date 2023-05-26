@@ -4,6 +4,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 const Tabela = () => {
+    // Guarda o preço
     let HotWheels = JSON.parse(localStorage.getItem('HotWheel1')).preco;
     let Peluches = JSON.parse(localStorage.getItem('Peluche1')).preco;
     let Puzzle = JSON.parse(localStorage.getItem('Puzzles1')).preco;
@@ -17,6 +18,7 @@ const Tabela = () => {
     let Berlindes = JSON.parse(localStorage.getItem('Berlinde1')).preco;
     let Pops = JSON.parse(localStorage.getItem('Pop1')).preco;
 
+    // Guarda a quantidade de vendas totais de cada brinquedo
     let HotWheel = JSON.parse(localStorage.getItem('HotWheel'));
     let Peluche = JSON.parse(localStorage.getItem('Peluche'));
     let Puzzles = JSON.parse(localStorage.getItem('Puzzles'));
@@ -30,6 +32,7 @@ const Tabela = () => {
     let Berlinde = JSON.parse(localStorage.getItem('Berlinde'));
     let Pop = JSON.parse(localStorage.getItem('Pop'));
 
+    // Guarda a quantidade de vendas com o preço atual de cada brinquedo
     let HotWheel2 = JSON.parse(localStorage.getItem('HotWheel2'));
     let Peluche2 = JSON.parse(localStorage.getItem('Peluche2'));
     let Puzzles2 = JSON.parse(localStorage.getItem('Puzzles2'));
@@ -43,8 +46,10 @@ const Tabela = () => {
     let Berlinde2 = JSON.parse(localStorage.getItem('Berlinde2'));
     let Pop2 = JSON.parse(localStorage.getItem('Pop2'));
 
+    //Preço do produto + quantidade de vendas atuais
     let Total = HotWheels * HotWheel2 + Peluches * Peluche2 + Puzzle * Puzzles2 + Piões * Pião2 + Lego * Legos2 + Comboio * Comboios2 + Nenuco * Nenucos2 + Nerf * Nerfs2 + Barbie * Barbies2 + Cubo * Cubos2 + Berlindes * Berlinde2 + Pops * Pop2;
 
+    // Temos uma linha para cada Brinquedo e uma para o Total e temos 5 colunas. 1ª coluna mostra o nome de cada brinquedo, 2ª coluna mostra as vendas totais de cada produto e na linha total mostra o total de vendas, 3ª coluna mostra as vendas com o preço atual de cada brinquedo e na linha do total o total de vendas com o preço atual, 4ª coluna mostra o preço de cada brinquedo e na 5ª coluna mostra o total ganho de cada brinquedo com o preço atual e na linha total mostra o total angariado
    const [rowData] = useState([
        {Brinquedo: "HotWheels", VendasTotais: HotWheel, VendasAtuais: HotWheel2, PreçoDoProduto: HotWheels + "€",  TotalGanho: parseFloat(HotWheel2 * HotWheels).toFixed(2) + "€"},
        {Brinquedo: "Peluches", VendasTotais: Peluche, VendasAtuais: Peluche2, PreçoDoProduto: Peluches + "€", TotalGanho: parseFloat(Peluche2 * Peluches).toFixed(2) + "€"},
