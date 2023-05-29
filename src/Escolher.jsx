@@ -12,7 +12,7 @@ function Escolher(props) {
   };
   //Verifica se ele inseriu alguma coisa no input do preço e da quantidade se ele tiver inseido ele guarda nas variáveis a quantidade e preço
   const handleConfirm = () => {
-    if(preco === "" || quantidade === "")
+    if(preco === "" || quantidade === "" || preco <= -1 || quantidade <= -1 )
     {
       alert("Falta inserir o preço ou a quantidade");
     } else {
@@ -25,16 +25,16 @@ function Escolher(props) {
   };
   // input do preço e da quantidade e botão para confirmar a inserção
   return (
-    <li>
+      <div className={`produtos-box ${props.name}`}>
       <h1>{props.name}</h1>
-      <p>Preço:</p>
+      <p className='produtos-preco'>Preço:</p>
       <input id='pre' type="number" value={preco} max={99} onChange={handlePrecoChange} />
-      <p>Quantidade:</p>
+      <p className="produtos-estoque">Quantidade:</p>
       <input id='quant' type="number" value={quantidade} max={99} onChange={handleQuantidadeChange} />
       <button className="produtos_button" onClick={handleConfirm}>
         Confirmar
       </button>
-    </li>
+      </div>
   );
 }
 export default Escolher;

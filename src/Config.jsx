@@ -34,7 +34,7 @@ const Config = () => {
   // Mostra o Escolher, a tabela e o gráfico
   return (
     <div>
-      <h1>Configurar stocks e preços</h1>
+      <h1 className="titulo">Configurar stocks e preços</h1>
       <p className="dinheiro">Montante conseguido: {dinheiro !== null || dinheiro !== undefined ? parseFloat(dinheiro).toFixed(2) : localStorage.setItem("dinheiro", JSON.stringify(0))}€</p>
       <Link to={`/`} className="config">
         <button className="produtos-button">Inicio</button>
@@ -47,7 +47,7 @@ const Config = () => {
             onConfirm={handleConfirm}
           />
         ))}
-        <br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         <Tabela/>
         <br />
         <br />

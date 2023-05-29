@@ -1,5 +1,5 @@
 .produtos_button {
-  background-color: #eeeeee;
+  background-color: #ffffff;
   padding: 5px 25px;
   color: #000000;
   font-size: 18px;
@@ -9,9 +9,19 @@
   cursor: pointer;
   margin-top: 20px;
 }
-li > h1 {
+
+div > h1 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.produtos_button:hover {
+  background-color: #333;
   color: #ffffff;
 }
-li > p {
+.titulo {
+  text-align: center;
   color: #ffffff;
 }

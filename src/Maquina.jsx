@@ -249,7 +249,7 @@ const VendingMachine = () => {
   };
   return (
     <div>
-      <h1>Vending Machine</h1>
+      <h1 className="titulo">Vending Machine</h1>
       <p className="total">Valor total no moedeiro: {total !== null || total !== undefined ? parseFloat(total).toFixed(2) : 0}€</p>
       <button className="modal-button" onClick={() => setShowModal(true)}>Ver lista de compras</button>
     
@@ -257,13 +257,17 @@ const VendingMachine = () => {
         <Modal>
           <div>
             <h1>Olá, esta é a lista de compras:</h1>
-            <p>{values}</p>
+            <ul>
+              {values.map((value, index) => (
+            <li key={index}>{value}</li>
+            ))}
+            </ul>
             <div>
               <button onClick={() => setShowModal(false)}>OK</button>
             </div>
           </div>
         </Modal>
-      ) : null}
+        ) : null}
     
       <button className="modal-buttons" onClick={() => setShowModal2(true)}>Produtos disponíveis</button>
     
