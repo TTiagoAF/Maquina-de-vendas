@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import moment from 'moment';
 import "./Maquina.css";
 import Produto from "./Produto";
 import Modal from "./Modal";
 import ErrorBoundary from "./ErrorBoundary"
 import { Link } from "react-router-dom";
+import brinquedos from "./brinquedos.json"
 
 // Página principal
 const VendingMachine = () => {
@@ -47,76 +48,59 @@ const VendingMachine = () => {
   values.push(value);
 }
 // Guarda os preços dos produtos
-  const precoprodutos = {
-    HotWheel: JSON.parse(localStorage.getItem('HotWheel1')).preco,
-    Peluche: JSON.parse(localStorage.getItem('Peluche1')).preco,
-    Puzzles: JSON.parse(localStorage.getItem('Puzzles1')).preco,
-    Pião: JSON.parse(localStorage.getItem('Pião1')).preco,
-    Legos: JSON.parse(localStorage.getItem('Legos1')).preco,
-    Comboios: JSON.parse(localStorage.getItem('Comboios1')).preco,
-    Nenucos: JSON.parse(localStorage.getItem('Nenucos1')).preco,
-    Nerfs: JSON.parse(localStorage.getItem('Nerfs1')).preco,
-    Barbies: JSON.parse(localStorage.getItem('Barbies1')).preco,
-    Cubos: JSON.parse(localStorage.getItem('Cubos1')).preco,
-    Berlinde: JSON.parse(localStorage.getItem('Berlinde1')).preco,
-    Pop: JSON.parse(localStorage.getItem('Pop1')).preco,
-  };
+
   // Guarda a quantidade de vendas de vendas totais
   const [qtd, setQtd] = useState({
-    HotWheel: JSON.parse(localStorage.getItem("HotWheel")),
+    HotWheels: JSON.parse(localStorage.getItem("HotWheels")),
     Peluche: JSON.parse(localStorage.getItem("Peluche")),
-    Puzzles: JSON.parse(localStorage.getItem("Puzzles")),
+    Puzzle: JSON.parse(localStorage.getItem("Puzzle")),
     Pião: JSON.parse(localStorage.getItem("Pião")),
-    Legos: JSON.parse(localStorage.getItem("Legos")),
-    Comboios: JSON.parse(localStorage.getItem("Comboios")),
+    Lego: JSON.parse(localStorage.getItem("Lego")),
+    Comboio: JSON.parse(localStorage.getItem("Comboio")),
     Nenucos: JSON.parse(localStorage.getItem("Nenucos")),
     Nerfs: JSON.parse(localStorage.getItem("Nerfs")),
-    Barbies: JSON.parse(localStorage.getItem("Barbies")),
+    Barbie: JSON.parse(localStorage.getItem("Barbie")),
     Cubos: JSON.parse(localStorage.getItem("Cubos")),
     Berlinde: JSON.parse(localStorage.getItem("Berlinde")),
     Pop: JSON.parse(localStorage.getItem("Pop")),
   });
   // Guarda a quantidade de vendas com o valor atual
   const [qtdatual, setQtdatual] = useState({
-    HotWheel: JSON.parse(localStorage.getItem("HotWheel2")),
+    HotWheels: JSON.parse(localStorage.getItem("HotWheel2")),
     Peluche: JSON.parse(localStorage.getItem("Peluche2")),
-    Puzzles: JSON.parse(localStorage.getItem("Puzzles2")),
+    Puzzle: JSON.parse(localStorage.getItem("Puzzles2")),
     Pião: JSON.parse(localStorage.getItem("Pião2")),
-    Legos: JSON.parse(localStorage.getItem("Legos2")),
-    Comboios: JSON.parse(localStorage.getItem("Comboios2")),
+    Lego: JSON.parse(localStorage.getItem("Legos2")),
+    Comboio: JSON.parse(localStorage.getItem("Comboios2")),
     Nenucos: JSON.parse(localStorage.getItem("Nenucos2")),
     Nerfs: JSON.parse(localStorage.getItem("Nerfs2")),
-    Barbies: JSON.parse(localStorage.getItem("Barbies2")),
+    Barbie: JSON.parse(localStorage.getItem("Barbies2")),
     Cubos: JSON.parse(localStorage.getItem("Cubos2")),
     Berlinde: JSON.parse(localStorage.getItem("Berlinde2")),
     Pop: JSON.parse(localStorage.getItem("Pop2")),
   });
   // Guarda o stock de cada produto
-  const [stock, setStock] = useState({
-    HotWheel: JSON.parse(localStorage.getItem('HotWheel1')).quantidade - qtdatual.HotWheel,
-    Peluche: JSON.parse(localStorage.getItem('Peluche1')).quantidade - qtdatual.Peluche,
-    Puzzles: JSON.parse(localStorage.getItem('Puzzles1')).quantidade - qtdatual.Puzzles,
-    Pião: JSON.parse(localStorage.getItem('Pião1')).quantidade - qtdatual.Pião,
-    Legos: JSON.parse(localStorage.getItem('Legos1')).quantidade - qtdatual.Legos,
-    Comboios: JSON.parse(localStorage.getItem('Comboios1')).quantidade - qtdatual.Comboios,
-    Nenucos: JSON.parse(localStorage.getItem('Nenucos1')).quantidade - qtdatual.Nenucos,
-    Nerfs: JSON.parse(localStorage.getItem('Nerfs1')).quantidade - qtdatual.Nerfs,
-    Barbies: JSON.parse(localStorage.getItem('Barbies1')).quantidade - qtdatual.Barbies,
-    Cubos: JSON.parse(localStorage.getItem('Cubos1')).quantidade - qtdatual.Cubos,
-    Berlinde: JSON.parse(localStorage.getItem('Berlinde1')).quantidade - qtdatual.Berlinde,
-    Pop: JSON.parse(localStorage.getItem('Pop1')).quantidade - qtdatual.Pop,
+const [precoprodutos] = useState({});
+
+brinquedos.Brinquedos.forEach(brinquedo => {
+  precoprodutos[brinquedo.Brinquedo] = brinquedo.Preco;
+});
+  const [stock, setStock] = useState({});
+
+  brinquedos.Brinquedos.forEach(brinquedo => {
+    stock[brinquedo.Brinquedo] = brinquedo.Quantidade - qtdatual[brinquedo.Brinquedo];
   });
   // Guarda as quantidades de vendas de cada mês
   const [vendas, setVendas] = useState({
-    HotWheel: JSON.parse(localStorage.getItem("HotWheel" + teste)),
+    HotWheels: JSON.parse(localStorage.getItem("HotWheels" + teste)),
     Peluche: JSON.parse(localStorage.getItem("Peluche" + teste)),
-    Puzzles: JSON.parse(localStorage.getItem("Puzzles" + teste)),
+    Puzzle: JSON.parse(localStorage.getItem("Puzzle" + teste)),
     Pião: JSON.parse(localStorage.getItem("Pião" + teste)),
-    Legos: JSON.parse(localStorage.getItem("Legos" + teste)),
-    Comboios: JSON.parse(localStorage.getItem("Comboios" + teste)),
+    Lego: JSON.parse(localStorage.getItem("Lego" + teste)),
+    Comboio: JSON.parse(localStorage.getItem("Comboio" + teste)),
     Nenucos: JSON.parse(localStorage.getItem("Nenucos" + teste)),
     Nerfs: JSON.parse(localStorage.getItem("Nerfs" + teste)),
-    Barbies: JSON.parse(localStorage.getItem("Barbies" + teste)),
+    Barbie: JSON.parse(localStorage.getItem("Barbie" + teste)),
     Cubos: JSON.parse(localStorage.getItem("Cubos" + teste)),
     Berlinde: JSON.parse(localStorage.getItem("Berlinde" + teste)),
     Pop: JSON.parse(localStorage.getItem("Pop" + teste)),
@@ -127,9 +111,6 @@ const VendingMachine = () => {
       Brinquedos = {...Brinquedos, ...JSON.parse(localStorage.getItem(key))}
     }
   }
-  useEffect(() => {
-    console.log("Oi", localStorage)
-  },[])
   // Guarda o produto selecionado
   const handleselecaoproduto = (produto) => {
     setSelecionar(produto);
@@ -275,15 +256,15 @@ const VendingMachine = () => {
         <Modal>
           <div>
             <h1>Produtos disponíveis:</h1>
-            <p>HotWheels - {precoprodutos.HotWheel}€ - {stock.HotWheel} Quantidades restantes</p>
+            <p>HotWheels - {precoprodutos.HotWheels}€ - {stock.HotWheels} Quantidades restantes</p>
             <p>Peluches - {precoprodutos.Peluche}€ - {stock.Peluche} Quantidades restantes</p>
-            <p>Puzzle - {precoprodutos.Puzzles}€ - {stock.Puzzles} Quantidades restantes</p>
+            <p>Puzzle - {precoprodutos.Puzzle}€ - {stock.Puzzle} Quantidades restantes</p>
             <p>Piões - {precoprodutos.Pião}€ - {stock.Pião} Quantidades restantes</p>
-            <p>Lego - {precoprodutos.Legos}€ - {stock.Legos} Quantidades restantes</p>
-            <p>Comboio - {precoprodutos.Comboios}€ - {stock.Comboios} Quantidades restantes</p>
+            <p>Lego - {precoprodutos.Lego}€ - {stock.Lego} Quantidades restantes</p>
+            <p>Comboio - {precoprodutos.Comboio}€ - {stock.Comboio} Quantidades restantes</p>
             <p>Nenuco - {precoprodutos.Nenucos}€ - {stock.Nenucos} Quantidades restantes</p>
             <p>Nerf - {precoprodutos.Nerfs}€ - {stock.Nerfs} Quantidades restantes</p>
-            <p>Barbie - {precoprodutos.Barbies}€ - {stock.Barbies} Quantidades restantes</p>
+            <p>Barbie - {precoprodutos.Barbie}€ - {stock.Barbie} Quantidades restantes</p>
             <p>Cubo - {precoprodutos.Cubos}€ - {stock.Cubos} Quantidades restantes</p>
             <p>Berlindes - {precoprodutos.Berlinde}€ - {stock.Berlinde} Quantidades restantes</p>
             <p>Pops - {precoprodutos.Pop}€ - {stock.Pop} Quantidades restantes</p>
@@ -304,23 +285,23 @@ const VendingMachine = () => {
     
       <h2>Produtos disponíveis:</h2>
       <ul className="produtos-form">
-        {stock.HotWheel > 0 && escolher === true && (
-          <Produto nome="HotWheel" preco={precoprodutos.HotWheel} estoque={stock.HotWheel} onSelecionar={() => handleselecaoproduto("HotWheel")}/>
+        {stock.HotWheels > 0 && escolher === true && (
+          <Produto nome="HotWheels" preco={precoprodutos.HotWheels} estoque={stock.HotWheels} onSelecionar={() => handleselecaoproduto("HotWheels")}/>
         )}
         {stock.Peluche > 0 && escolher === true && (
           <Produto nome="Peluche" preco={precoprodutos.Peluche} estoque={stock.Peluche} onSelecionar={() => handleselecaoproduto("Peluche")}/>
         )}
-        {stock.Puzzles > 0 && escolher === true && (
-          <Produto nome="Puzzles" preco={precoprodutos.Puzzles} estoque={stock.Puzzles} onSelecionar={() => handleselecaoproduto("Puzzles")}/>
+        {stock.Puzzle > 0 && escolher === true && (
+          <Produto nome="Puzzle" preco={precoprodutos.Puzzle} estoque={stock.Puzzle} onSelecionar={() => handleselecaoproduto("Puzzle")}/>
         )}
         {stock.Pião > 0 && escolher === true && (
           <Produto nome="Pião" preco={precoprodutos.Pião} estoque={stock.Pião} onSelecionar={() => handleselecaoproduto("Pião")}/>
         )}
-        {stock.Legos > 0 && escolher === true && (
-          <Produto nome="Legos" preco={precoprodutos.Legos} estoque={stock.Legos} onSelecionar={() => handleselecaoproduto("Legos")}/>
+        {stock.Lego > 0 && escolher === true && (
+          <Produto nome="Lego" preco={precoprodutos.Lego} estoque={stock.Lego} onSelecionar={() => handleselecaoproduto("Lego")}/>
         )}
-        {stock.Comboios > 0 && escolher === true && (
-          <Produto nome="Comboios" preco={precoprodutos.Comboios} estoque={stock.Comboios} onSelecionar={() => handleselecaoproduto("Comboios")}/>
+        {stock.Comboio > 0 && escolher === true && (
+          <Produto nome="Comboio" preco={precoprodutos.Comboio} estoque={stock.Comboio} onSelecionar={() => handleselecaoproduto("Comboio")}/>
         )}
         {stock.Nenucos > 0 && escolher === true && (
           <Produto nome="Nenucos" preco={precoprodutos.Nenucos} estoque={stock.Nenucos} onSelecionar={() => handleselecaoproduto("Nenucos")}/>
@@ -328,8 +309,8 @@ const VendingMachine = () => {
         {stock.Nerfs > 0 && escolher === true && (
           <Produto nome="Nerfs" preco={precoprodutos.Nerfs} estoque={stock.Nerfs} onSelecionar={() => handleselecaoproduto("Nerfs")}/>
         )}
-        {stock.Barbies > 0 && escolher === true && (
-          <Produto nome="Barbies" preco={precoprodutos.Barbies} estoque={stock.Barbies} onSelecionar={() => handleselecaoproduto("Barbies")}/>
+        {stock.Barbie > 0 && escolher === true && (
+          <Produto nome="Barbie" preco={precoprodutos.Barbie} estoque={stock.Barbie} onSelecionar={() => handleselecaoproduto("Barbie")}/>
         )}
         {stock.Cubos > 0 && escolher === true && (
           <Produto nome="Cubos" preco={precoprodutos.Cubos} estoque={stock.Cubos} onSelecionar={() => handleselecaoproduto("Cubos")}/>

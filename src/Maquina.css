@@ -159,7 +159,7 @@ div > h2 {
   color: #ffffff;
 }
 
-.HotWheel {
+.HotWheels {
   position: absolute;
   margin-left: 435px;
   text-align: center;
@@ -171,7 +171,7 @@ div > h2 {
   text-align: center;
 }
 
-.Puzzles {
+.Puzzle {
   position: absolute;
   margin-left: 865px;
   text-align: center;
@@ -183,13 +183,13 @@ div > h2 {
   text-align: center;
 }
 
-.Legos {
+.Lego {
   position: absolute;
   margin-left: 1295px;
   text-align: center;
 }
 
-.Comboios {
+.Comboio {
   position: absolute;
   margin-left: 220px;
   text-align: center;
@@ -208,7 +208,7 @@ div > h2 {
   text-align: center;
 }
 
-.Barbies {
+.Barbie {
   margin-top: 300px;
   position: absolute;
   margin-left: 435px;

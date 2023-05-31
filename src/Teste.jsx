@@ -20,7 +20,7 @@ function BrinquedoObjeto(NomeBrinquedo) {
 }
 // Guarda o nome de cada brinquedo
 var data = {
-  ho: BrinquedoObjeto('HotWheel'),
+  ho: BrinquedoObjeto('HotWheels'),
   pe: BrinquedoObjeto('Peluche'),
   pu: BrinquedoObjeto('Puzzles'),
   pi: BrinquedoObjeto('Pião'),

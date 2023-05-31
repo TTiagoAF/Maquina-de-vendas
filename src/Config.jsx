@@ -8,15 +8,15 @@ import ChartExample from "./Teste";
 const Config = () => {
   // Guarda o nome de cada Brinquedo
   const namesProdutos = [
-    "HotWheel",
+    "HotWheels",
     "Peluche",
-    "Puzzles",
+    "Puzzle",
     "Pião",
-    "Legos",
-    "Comboios",
+    "Lego",
+    "Comboio",
     "Nenucos",
     "Nerfs",
-    "Barbies",
+    "Barbie",
     "Cubos",
     "Berlinde",
     "Pop",

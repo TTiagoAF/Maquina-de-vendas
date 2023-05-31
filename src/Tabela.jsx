@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import brinquedos from "./brinquedos.json"
 
 const Tabela = () => {
+    const [precoprodutos] = useState({});
+
+    brinquedos.Brinquedos.forEach(brinquedo => {
+    precoprodutos[brinquedo.Brinquedo] = brinquedo.Preco;
+    });
     // Guarda o preço
-    let HotWheels = JSON.parse(localStorage.getItem('HotWheel1')).preco;
+    let HotWheels = precoprodutos.HotWheels;
     let Peluches = JSON.parse(localStorage.getItem('Peluche1')).preco;
     let Puzzle = JSON.parse(localStorage.getItem('Puzzles1')).preco;
     let Piões = JSON.parse(localStorage.getItem('Pião1')).preco;
@@ -14,12 +20,12 @@ const Tabela = () => {
     let Nenuco = JSON.parse(localStorage.getItem('Nenucos1')).preco;
     let Nerf = JSON.parse(localStorage.getItem('Nerfs1')).preco;
     let Barbie = JSON.parse(localStorage.getItem('Barbies1')).preco;
-    let Cubo = JSON.parse(localStorage.getItem('Cubos1')).preco;
+    let Cubo = precoprodutos.Cubos;
     let Berlindes = JSON.parse(localStorage.getItem('Berlinde1')).preco;
     let Pops = JSON.parse(localStorage.getItem('Pop1')).preco;
 
     // Guarda a quantidade de vendas totais de cada brinquedo
-    let HotWheel = JSON.parse(localStorage.getItem('HotWheel'));
+    let HotWheel = JSON.parse(localStorage.getItem('HotWheels'));
     let Peluche = JSON.parse(localStorage.getItem('Peluche'));
     let Puzzles = JSON.parse(localStorage.getItem('Puzzles'));
     let Pião = JSON.parse(localStorage.getItem('Pião'));
@@ -33,7 +39,7 @@ const Tabela = () => {
     let Pop = JSON.parse(localStorage.getItem('Pop'));
 
     // Guarda a quantidade de vendas com o preço atual de cada brinquedo
-    let HotWheel2 = JSON.parse(localStorage.getItem('HotWheel2'));
+    let HotWheel2 = JSON.parse(localStorage.getItem('HotWheels2'));
     let Peluche2 = JSON.parse(localStorage.getItem('Peluche2'));
     let Puzzles2 = JSON.parse(localStorage.getItem('Puzzles2'));
     let Pião2 = JSON.parse(localStorage.getItem('Pião2'));
