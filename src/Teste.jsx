@@ -8,8 +8,8 @@ function BrinquedoObjeto(NomeBrinquedo) {
     { time: 'Fevereiro', Vendas: 0 },
     { time: 'Março', Vendas: 0 },
     { time: 'Abril', Vendas: 0 },
-    { time: 'Maio', Vendas: JSON.parse(localStorage.getItem(`${NomeBrinquedo}May`)) },
-    { time: 'Junho', Vendas: 0 },
+    { time: 'Maio', Vendas: 0},
+    { time: 'Junho', Vendas: JSON.parse(localStorage.getItem(`${NomeBrinquedo}Jun`))  },
     { time: 'Julho', Vendas: 0 },
     { time: 'Agosto', Vendas: 0 },
     { time: 'Setembro', Vendas: 0 },
@@ -20,18 +20,18 @@ function BrinquedoObjeto(NomeBrinquedo) {
 }
 // Guarda o nome de cada brinquedo
 var data = {
-  ho: BrinquedoObjeto('HotWheels'),
-  pe: BrinquedoObjeto('Peluche'),
-  pu: BrinquedoObjeto('Puzzles'),
-  pi: BrinquedoObjeto('Pião'),
-  Le: BrinquedoObjeto('Legos'),
-  Co: BrinquedoObjeto('Comboios'),
-  Ne: BrinquedoObjeto('Nenucos'),
-  Nerf: BrinquedoObjeto('Nerfs'),
-  Ba: BrinquedoObjeto('Barbies'),
-  Cubo: BrinquedoObjeto('Cubos'),
-  Be: BrinquedoObjeto('Berlinde'),
-  Po: BrinquedoObjeto('Pop'),
+  ho: BrinquedoObjeto('0'),
+  pe: BrinquedoObjeto('1'),
+  pu: BrinquedoObjeto('2'),
+  pi: BrinquedoObjeto('3'),
+  Le: BrinquedoObjeto('4'),
+  Co: BrinquedoObjeto('5'),
+  Ne: BrinquedoObjeto('6'),
+  Nerf: BrinquedoObjeto('7'),
+  Ba: BrinquedoObjeto('8'),
+  Cubo: BrinquedoObjeto('9'),
+  Be: BrinquedoObjeto('10'),
+  Po: BrinquedoObjeto('11'),
 };
   // Escolha de cores para cada produto
 const ChartExample = () => {

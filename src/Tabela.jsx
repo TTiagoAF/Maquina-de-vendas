@@ -1,56 +1,83 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import brinquedos from "./brinquedos.json"
+
 
 const Tabela = () => {
-    const [precoprodutos] = useState({});
+    const apiUrl = 'https://localhost:7117';
+    const [precoprodutos, setPrecoProduto] = useState({});
+    const [vendastotaiss, setVendasTotais] = useState({});
+useEffect(() => {
+  const fetchBrinquedos = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/api/TodosBrinquedos/ListaDeBrinquedos`);
+      const iu = await response.json();
+      console.log(iu);
 
-    brinquedos.Brinquedos.forEach(brinquedo => {
-    precoprodutos[brinquedo.Brinquedo] = brinquedo.Preco;
-    });
+      if (iu) {
+        console.log('Entrou no if');
+        // Mapear os objetos de brinquedo e atualizar os estados precoprodutos e stock
+        // eslint-disable-next-line no-debugger
+        const preco = Object.values(iu).map(brinquedo => {debugger; return brinquedo.preco;});
+        setPrecoProduto(preco);
+        // eslint-disable-next-line no-debugger
+        const vendastotais = Object.values(iu).map(brinquedo => {debugger; return brinquedo.vendastotais;});
+        setVendasTotais(vendastotais);
+      } else {
+        console.log('Não entrou no if');
+      }
+
+    } catch (error) {
+      console.error('Erro ao obter os brinquedos da API:', error);
+    }
+  };
+
+  fetchBrinquedos();
+}, []);
+
+console.log(vendastotaiss[0], precoprodutos[0] );
     // Guarda o preço
-    let HotWheels = precoprodutos.HotWheels;
-    let Peluches = JSON.parse(localStorage.getItem('Peluche1')).preco;
-    let Puzzle = JSON.parse(localStorage.getItem('Puzzles1')).preco;
-    let Piões = JSON.parse(localStorage.getItem('Pião1')).preco;
-    let Lego = JSON.parse(localStorage.getItem('Legos1')).preco;
-    let Comboio = JSON.parse(localStorage.getItem('Comboios1')).preco;
-    let Nenuco = JSON.parse(localStorage.getItem('Nenucos1')).preco;
-    let Nerf = JSON.parse(localStorage.getItem('Nerfs1')).preco;
-    let Barbie = JSON.parse(localStorage.getItem('Barbies1')).preco;
-    let Cubo = precoprodutos.Cubos;
-    let Berlindes = JSON.parse(localStorage.getItem('Berlinde1')).preco;
-    let Pops = JSON.parse(localStorage.getItem('Pop1')).preco;
+    let HotWheels = precoprodutos[0];
+    let Peluches = precoprodutos[1];
+    let Puzzle = precoprodutos[2];
+    let Piões = precoprodutos[3];
+    let Lego = precoprodutos[4];
+    let Comboio = precoprodutos[5];
+    let Nenuco = precoprodutos[6];
+    let Nerf = precoprodutos[7];
+    let Barbie = precoprodutos[8];
+    let Cubo = precoprodutos[9];
+    let Berlindes = precoprodutos[10];
+    let Pops = precoprodutos[11];
 
     // Guarda a quantidade de vendas totais de cada brinquedo
-    let HotWheel = JSON.parse(localStorage.getItem('HotWheels'));
-    let Peluche = JSON.parse(localStorage.getItem('Peluche'));
-    let Puzzles = JSON.parse(localStorage.getItem('Puzzles'));
-    let Pião = JSON.parse(localStorage.getItem('Pião'));
-    let Legos = JSON.parse(localStorage.getItem('Legos'));
-    let Comboios = JSON.parse(localStorage.getItem('Comboios'));
-    let Nenucos = JSON.parse(localStorage.getItem('Nenucos'));
-    let Nerfs = JSON.parse(localStorage.getItem('Nerfs'));
-    let Barbies = JSON.parse(localStorage.getItem('Barbies'));
-    let Cubos = JSON.parse(localStorage.getItem('Cubos'));
-    let Berlinde = JSON.parse(localStorage.getItem('Berlinde'));
-    let Pop = JSON.parse(localStorage.getItem('Pop'));
+    let HotWheel = vendastotaiss[0];
+    let Peluche = vendastotaiss[1];
+    let Puzzles = vendastotaiss[2];
+    let Pião = vendastotaiss[3];
+    let Legos = vendastotaiss[4];
+    let Comboios = vendastotaiss[5];
+    let Nenucos = vendastotaiss[6];
+    let Nerfs = vendastotaiss[7];
+    let Barbies = vendastotaiss[8];
+    let Cubos = vendastotaiss[9];
+    let Berlinde = vendastotaiss[10];
+    let Pop = vendastotaiss[11];
 
     // Guarda a quantidade de vendas com o preço atual de cada brinquedo
-    let HotWheel2 = JSON.parse(localStorage.getItem('HotWheels2'));
-    let Peluche2 = JSON.parse(localStorage.getItem('Peluche2'));
-    let Puzzles2 = JSON.parse(localStorage.getItem('Puzzles2'));
-    let Pião2 = JSON.parse(localStorage.getItem('Pião2'));
-    let Legos2 = JSON.parse(localStorage.getItem('Legos2'));
-    let Comboios2 = JSON.parse(localStorage.getItem('Comboios2'));
-    let Nenucos2 = JSON.parse(localStorage.getItem('Nenucos2'));
-    let Nerfs2 = JSON.parse(localStorage.getItem('Nerfs2'));
-    let Barbies2 = JSON.parse(localStorage.getItem('Barbies2'));
-    let Cubos2 = JSON.parse(localStorage.getItem('Cubos2'));
-    let Berlinde2 = JSON.parse(localStorage.getItem('Berlinde2'));
-    let Pop2 = JSON.parse(localStorage.getItem('Pop2'));
+    let HotWheel2 = JSON.parse(localStorage.getItem('02'));
+    let Peluche2 = JSON.parse(localStorage.getItem('12'));
+    let Puzzles2 = JSON.parse(localStorage.getItem('22'));
+    let Pião2 = JSON.parse(localStorage.getItem('32'));
+    let Legos2 = JSON.parse(localStorage.getItem('42'));
+    let Comboios2 = JSON.parse(localStorage.getItem('52'));
+    let Nenucos2 = JSON.parse(localStorage.getItem('62'));
+    let Nerfs2 = JSON.parse(localStorage.getItem('72'));
+    let Barbies2 = JSON.parse(localStorage.getItem('82'));
+    let Cubos2 = JSON.parse(localStorage.getItem('92'));
+    let Berlinde2 = JSON.parse(localStorage.getItem('102'));
+    let Pop2 = JSON.parse(localStorage.getItem('112'));
 
     //Preço do produto + quantidade de vendas atuais
     let Total = HotWheels * HotWheel2 + Peluches * Peluche2 + Puzzle * Puzzles2 + Piões * Pião2 + Lego * Legos2 + Comboio * Comboios2 + Nenuco * Nenucos2 + Nerf * Nerfs2 + Barbie * Barbies2 + Cubo * Cubos2 + Berlindes * Berlinde2 + Pops * Pop2;
