@@ -5,6 +5,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 
 const Tabela = () => {
+  
     const apiUrl = 'https://localhost:7117';
     const [precoprodutos, setPrecoProduto] = useState({});
     const [vendastotaiss, setVendasTotais] = useState({});
@@ -12,17 +13,18 @@ useEffect(() => {
   const fetchBrinquedos = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/TodosBrinquedos/ListaDeBrinquedos`);
-      const iu = await response.json();
-      console.log(iu);
+      const api = await response.json();
+      console.log(api);
 
-      if (iu) {
+      if (api) {
         console.log('Entrou no if');
-        // Mapear os objetos de brinquedo e atualizar os estados precoprodutos e stock
+        // Mapear os objetos de brinquedo e atualizar os estados precoprodutos e vendastotais
         // eslint-disable-next-line no-debugger
-        const preco = Object.values(iu).map(brinquedo => {debugger; return brinquedo.preco;});
+        debugger
+        const preco = api;
         setPrecoProduto(preco);
         // eslint-disable-next-line no-debugger
-        const vendastotais = Object.values(iu).map(brinquedo => {debugger; return brinquedo.vendastotais;});
+        const vendastotais = api;
         setVendasTotais(vendastotais);
       } else {
         console.log('Não entrou no if');
@@ -36,9 +38,11 @@ useEffect(() => {
   fetchBrinquedos();
 }, []);
 
-console.log(vendastotaiss[0], precoprodutos[0] );
+console.log(vendastotaiss[0], precoprodutos[0]);
     // Guarda o preço
-    let HotWheels = precoprodutos[0];
+    let HotWheels = precoprodutos[0].preco;
+    // eslint-disable-next-line no-debugger
+    debugger;
     let Peluches = precoprodutos[1];
     let Puzzle = precoprodutos[2];
     let Piões = precoprodutos[3];
@@ -52,7 +56,7 @@ console.log(vendastotaiss[0], precoprodutos[0] );
     let Pops = precoprodutos[11];
 
     // Guarda a quantidade de vendas totais de cada brinquedo
-    let HotWheel = vendastotaiss[0];
+    let HotWheel = vendastotaiss[0].vendastotais;
     let Peluche = vendastotaiss[1];
     let Puzzles = vendastotaiss[2];
     let Pião = vendastotaiss[3];
@@ -79,7 +83,7 @@ console.log(vendastotaiss[0], precoprodutos[0] );
     let Berlinde2 = JSON.parse(localStorage.getItem('102'));
     let Pop2 = JSON.parse(localStorage.getItem('112'));
 
-    //Preço do produto + quantidade de vendas atuais
+    //Preço do produto * quantidade de vendas atuais
     let Total = HotWheels * HotWheel2 + Peluches * Peluche2 + Puzzle * Puzzles2 + Piões * Pião2 + Lego * Legos2 + Comboio * Comboios2 + Nenuco * Nenucos2 + Nerf * Nerfs2 + Barbie * Barbies2 + Cubo * Cubos2 + Berlindes * Berlinde2 + Pops * Pop2;
 
     // Temos uma linha para cada Brinquedo e uma para o Total e temos 5 colunas. 1ª coluna mostra o nome de cada brinquedo, 2ª coluna mostra as vendas totais de cada produto e na linha total mostra o total de vendas, 3ª coluna mostra as vendas com o preço atual de cada brinquedo e na linha do total o total de vendas com o preço atual, 4ª coluna mostra o preço de cada brinquedo e na 5ª coluna mostra o total ganho de cada brinquedo com o preço atual e na linha total mostra o total angariado
