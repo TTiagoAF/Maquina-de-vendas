@@ -50,7 +50,7 @@ const VendingMachine = () => {
 // Guarda os preços dos produtos
 
   // Guarda a quantidade de vendas de vendas totais
-  const [qtd, setQtd] = useState({
+  const [, setQtd] = useState({
     0: JSON.parse(localStorage.getItem("0")),
     1: JSON.parse(localStorage.getItem("1")),
     2: JSON.parse(localStorage.getItem("2")),
@@ -65,7 +65,7 @@ const VendingMachine = () => {
     11: JSON.parse(localStorage.getItem("11")),
   });
   // Guarda a quantidade de vendas com o valor atual
-  const [qtdatual, setQtdatual] = useState({
+  const [, setQtdatual] = useState({
     0: JSON.parse(localStorage.getItem("02")),
     1: JSON.parse(localStorage.getItem("12")),
     2: JSON.parse(localStorage.getItem("22")),
@@ -106,6 +106,7 @@ const VendingMachine = () => {
   const apiUrl = 'https://localhost:7117';
   const [precoprodutos, setPrecoProduto] = useState({});
   const [stock, setStock] = useState({});
+  const [produto, setProduto] = useState({});
 
 useEffect(() => {
   const fetchBrinquedos = async () => {
@@ -121,6 +122,9 @@ useEffect(() => {
 
         const quantidades = Object.values(iu).map(brinquedo => brinquedo.quantidade);
         setStock(quantidades);
+
+        const produto = Object.values(iu).map(brinquedo => brinquedo.brinquedo);
+        setProduto(produto);
       } else {
         console.log('Não entrou no if');
       }
@@ -133,11 +137,37 @@ useEffect(() => {
   fetchBrinquedos();
 }, []);
   
-  // Guarda o produto selecionado
-  const handleselecaoproduto = (produto) => {
-    setSelecionar(produto);
-    setConcluido(false);
-  };
+const atualizarQuantidade = async (brinquedoId, novaQuantidade) => {
+  try {
+    const response = await fetch(`${apiUrl}/api/TodosBrinquedos/AddOrUpdateBrinquedo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ quantidade: novaQuantidade })
+    });
+
+    if (response.ok) {
+      console.log(`Quantidade atualizada para o brinquedo ${brinquedoId}`);
+    } else {
+      console.error(`Erro ao atualizar a quantidade do brinquedo ${brinquedoId}`);
+    }
+  } catch (error) {
+    console.error(`Erro ao atualizar a quantidade do brinquedo ${brinquedoId}:`, error);
+  }
+};
+
+// Guarda o produto selecionado
+const handleselecaoproduto = (produto) => {
+  setSelecionar(produto);
+  setConcluido(false);
+
+  const novaQuantidade = stock[produto] - 1;
+  if (novaQuantidade >= 0) {
+    atualizarQuantidade(produto, novaQuantidade);
+    setStock(prevStock => ({ ...prevStock, [produto]: novaQuantidade }));
+  }
+};
   // Os cinco Handles abaixo é para escolher que moedas se podem inserir
   const handlecheck10 = () => {
     if(checkdez === false) {
@@ -245,9 +275,7 @@ useEffect(() => {
     setComprar(false);
     setInserido(0);
     localStorage.setItem("dinheiro", JSON.stringify(dinheiro));
-    localStorage.setItem([selecionar], JSON.stringify(qtd[selecionar]));
     localStorage.setItem([selecionar] + teste, JSON.stringify(vendas[selecionar]));
-    localStorage.setItem([selecionar] + "2", JSON.stringify(qtdatual[selecionar]));
     setSelecionar("");
     Brinquedoss.tipo = [selecionar], Brinquedoss.data = data, Brinquedoss.troco = [inserido-precoprodutos[selecionar]], Brinquedoss.gasto = precoprodutos[selecionar];
     localStorage.setItem(data, JSON.stringify(Brinquedoss));
@@ -276,28 +304,21 @@ useEffect(() => {
     
       <button className="modal-buttons" onClick={() => setShowModal2(true)}>Produtos disponíveis</button>
     
-      {showModal2 ? (
-        <Modal>
+    {Object.keys(precoprodutos).length > 0 && showModal2 ? (
+      <Modal>
+        <div>
+          <h1>Produtos disponíveis:</h1>
+        {Object.keys(precoprodutos).map((chave, index) => (
+          <p key={index}>
+            {produto[chave]} - {precoprodutos[chave]}€ - {stock[chave]} Quantidades restantes
+          </p>
+        ))}
           <div>
-            <h1>Produtos disponíveis:</h1>
-            <p>HotWheels - {precoprodutos["0"]}€ - {stock["0"]} Quantidades restantes</p>
-            <p>Peluches - {precoprodutos["1"]}€ - {stock["1"]} Quantidades restantes</p>
-            <p>Puzzle - {precoprodutos["2"]}€ - {stock["2"]} Quantidades restantes</p>
-            <p>Piões - {precoprodutos["3"]}€ - {stock["3"]} Quantidades restantes</p>
-            <p>Lego - {precoprodutos["4"]}€ - {stock["4"]} Quantidades restantes</p>
-            <p>Comboio - {precoprodutos["5"]}€ - {stock["5"]} Quantidades restantes</p>
-            <p>Nenuco - {precoprodutos["6"]}€ - {stock["6"]} Quantidades restantes</p>
-            <p>Nerf - {precoprodutos["7"]}€ - {stock["7"]} Quantidades restantes</p>
-            <p>Barbie - {precoprodutos["8"]}€ - {stock["8"]} Quantidades restantes</p>
-            <p>Cubo - {precoprodutos["9"]}€ - {stock["9"]} Quantidades restantes</p>
-            <p>Berlindes - {precoprodutos["10"]}€ - {stock["10"]} Quantidades restantes</p>
-            <p>Pops - {precoprodutos["11"]}€ - {stock["11"]} Quantidades restantes</p>
-            <div>
-              <button onClick={() => setShowModal2(false)}>OK</button>
-            </div>
+            <button onClick={() => setShowModal2(false)}>OK</button>
           </div>
-        </Modal>
-      ) : null}
+        </div>
+      </Modal>
+    ) : null}
     
       <div className="checks">
         <input onChange={handlecheck10} type="checkbox" />0.10€
@@ -309,42 +330,17 @@ useEffect(() => {
     
       <h2>Produtos disponíveis:</h2>
       <ul className="produtos-form">
-        {stock["0"] > 0 && escolher === true && (
-          <Produto nome="HotWheels" preco={precoprodutos["0"]} estoque={stock["0"]} onSelecionar={() => handleselecaoproduto("0")}/>
-        )}
-        {stock["1"] > 0 && escolher === true && (
-          <Produto nome="Peluche" preco={precoprodutos["1"]} estoque={stock["1"]} onSelecionar={() => handleselecaoproduto("1")}/>
-        )}
-        {stock["2"] > 0 && escolher === true && (
-          <Produto nome="Puzzle" preco={precoprodutos["2"]} estoque={stock["2"]} onSelecionar={() => handleselecaoproduto("2")}/>
-        )}
-        {stock["3"] > 0 && escolher === true && (
-          <Produto nome="Pião" preco={precoprodutos["3"]} estoque={stock["3"]} onSelecionar={() => handleselecaoproduto("3")}/>
-        )}
-        {stock["4"] > 0 && escolher === true && (
-          <Produto nome="Lego" preco={precoprodutos["4"]} estoque={stock["4"]} onSelecionar={() => handleselecaoproduto("4")}/>
-        )}
-        {stock["5"] > 0 && escolher === true && (
-          <Produto nome="Comboio" preco={precoprodutos["5"]} estoque={stock["5"]} onSelecionar={() => handleselecaoproduto("5")}/>
-        )}
-        {stock["6"] > 0 && escolher === true && (
-          <Produto nome="Nenucos" preco={precoprodutos["6"]} estoque={stock["6"]} onSelecionar={() => handleselecaoproduto("6")}/>
-        )}
-        {stock["7"] > 0 && escolher === true && (
-          <Produto nome="Nerfs" preco={precoprodutos["7"]} estoque={stock["7"]} onSelecionar={() => handleselecaoproduto("7")}/>
-        )}
-        {stock["8"] > 0 && escolher === true && (
-          <Produto nome="Barbie" preco={precoprodutos["8"]} estoque={stock["8"]} onSelecionar={() => handleselecaoproduto("8")}/>
-        )}
-        {stock["9"] > 0 && escolher === true && (
-          <Produto nome="Cubos" preco={precoprodutos["9"]} estoque={stock["9"]} onSelecionar={() => handleselecaoproduto("9")}/>
-        )}
-        {stock["10"] > 0 && escolher === true && (
-          <Produto nome="Berlinde" preco={precoprodutos["10"]} estoque={stock["10"]} onSelecionar={() => handleselecaoproduto("10")}/>
-        )}
-        {stock["11"] > 0 && escolher === true && (
-          <Produto nome="Pop" preco={precoprodutos["11"]} estoque={stock["11"]} onSelecionar={() => handleselecaoproduto("11")}/>
-        )}
+      {Object.keys(stock).map((chave, index) => (
+        stock[chave] > 0 && escolher === true && (
+          <Produto
+          key={index}
+          nome={produto[chave]}
+          preco={precoprodutos[chave]}
+          estoque={stock[chave]}
+          onSelecionar={() => handleselecaoproduto(chave)}
+          />
+        )
+      ))}
       </ul>
     
       <div className="pagar-produtos">

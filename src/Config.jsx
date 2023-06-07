@@ -7,29 +7,15 @@ import ChartExample from "./Teste";
 
 const Config = () => {
   // Guarda o nome de cada Brinquedo
-  const namesProdutos = [
-    "HotWheels",
-    "Peluche",
-    "Puzzle",
-    "Pião",
-    "Lego",
-    "Comboio",
-    "Nenucos",
-    "Nerfs",
-    "Barbie",
-    "Cubos",
-    "Berlinde",
-    "Pop",
-  ];
   // Guarda o valor total de faturação
   const [dinheiro, ] = useState(JSON.parse(localStorage.getItem('dinheiro')));
   //Manda para a localstorage o preço e quantidade de cada brinquedo sendo o nome do brinquedo a chave
-  const handleConfirm = (name, preco, quantidade) => {
+  const handleConfirm = ( preco, quantidade) => {
     const precoquantidade = {
         preco,
         quantidade
       };
-      localStorage.setItem(name + 1, JSON.stringify(precoquantidade));
+      localStorage.setItem(1, JSON.stringify(precoquantidade));
   };
   // Mostra o Escolher, a tabela e o gráfico
   return (
@@ -40,14 +26,10 @@ const Config = () => {
         <button className="produtos-button">Inicio</button>
       </Link>
       <ul className="produtos-config">
-        {namesProdutos.map((name) => (
           <Escolher
-            name={name}
-            key={name}
             onConfirm={handleConfirm}
           />
-        ))}
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br/>
         <Tabela/>
         <br />
         <br />

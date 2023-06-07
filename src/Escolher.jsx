@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 
 function Escolher(props) {
   //Guarda o preço e quantidade de cada brinquedo
+  const [id, setId] = useState('');
   const [preco, setPreco] = useState('');
   const [quantidade, setQuantidade] = useState('');
+
+  const handleId = (event) => {
+    setId(event.target.value);
+  };
+
   const handlePrecoChange = (event) => {
     setPreco(event.target.value);
   };
+
   const handleQuantidadeChange = (event) => {
     setQuantidade(event.target.value);
   };
@@ -25,8 +32,10 @@ function Escolher(props) {
   };
   // input do preço e da quantidade e botão para confirmar a inserção
   return (
-      <div className={`produtos-box ${props.name}`}>
-      <h1>{props.name}</h1>
+      <div className={`produtos-boxx`}>
+      <h1>Brinquedo</h1>
+      <p className='produtos-preco'>Id:</p>
+      <input id='pre' type="number" value={id} max={99} onChange={handleId} />
       <p className='produtos-preco'>Preço:</p>
       <input id='pre' type="number" value={preco} max={99} onChange={handlePrecoChange} />
       <p className="produtos-estoque">Quantidade:</p>

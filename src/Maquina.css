@@ -96,6 +96,22 @@ div > h2 {
   transform: translateY(-5px);
 }
 
+.produtos-boxx {
+  position: relative;
+  width: 200px;
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+  margin-left: 650px;
+}
+
+.produtos-boxx:hover {
+  transform: translateY(-5px);
+}
+
 .produtos-nome {
   font-size: 18px;
   font-weight: bold;
