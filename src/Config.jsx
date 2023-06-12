@@ -8,6 +8,7 @@ import ChartExample from "./Teste";
 const Config = () => {
   // Guarda o nome de cada Brinquedo
   // Guarda o valor total de faturação
+  const [products,] = useState([]);
   const [dinheiro, ] = useState(JSON.parse(localStorage.getItem('dinheiro')));
   //Manda para a localstorage o preço e quantidade de cada brinquedo sendo o nome do brinquedo a chave
   const handleConfirm = ( preco, quantidade) => {
@@ -26,9 +27,7 @@ const Config = () => {
         <button className="produtos-button">Inicio</button>
       </Link>
       <ul className="produtos-config">
-          <Escolher
-            onConfirm={handleConfirm}
-          />
+      <Escolher products={products} onConfirm={handleConfirm} />
         <br/>
         <Tabela/>
         <br />
