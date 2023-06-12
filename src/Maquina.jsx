@@ -35,8 +35,8 @@ const VendingMachine = () => {
   const [, setConcluido] = useState(false);
   // Guarda a data para guardar as compras feitas na localstorage
   const data = moment().format('Do, h:mm:ss a');
-  // Guarda o mês para conseguir guardar as vendas de cada mês
-  const teste = moment().format('MMM');
+  
+
   let keys = [];
   let values = [];
   for (let i = 0; i < localStorage.length; i++){
@@ -49,54 +49,6 @@ const VendingMachine = () => {
 }
 // Guarda os preços dos produtos
 
-  // Guarda a quantidade de vendas de vendas totais
-  const [, setQtd] = useState({
-    0: JSON.parse(localStorage.getItem("0")),
-    1: JSON.parse(localStorage.getItem("1")),
-    2: JSON.parse(localStorage.getItem("2")),
-    3: JSON.parse(localStorage.getItem("3")),
-    4: JSON.parse(localStorage.getItem("4")),
-    5: JSON.parse(localStorage.getItem("5")),
-    6: JSON.parse(localStorage.getItem("6")),
-    7: JSON.parse(localStorage.getItem("7")),
-    8: JSON.parse(localStorage.getItem("8")),
-    9: JSON.parse(localStorage.getItem("9")),
-    10: JSON.parse(localStorage.getItem("10")),
-    11: JSON.parse(localStorage.getItem("11")),
-  });
-  // Guarda a quantidade de vendas com o valor atual
-  const [, setQtdatual] = useState({
-    0: JSON.parse(localStorage.getItem("02")),
-    1: JSON.parse(localStorage.getItem("12")),
-    2: JSON.parse(localStorage.getItem("22")),
-    3: JSON.parse(localStorage.getItem("32")),
-    4: JSON.parse(localStorage.getItem("42")),
-    5: JSON.parse(localStorage.getItem("52")),
-    6: JSON.parse(localStorage.getItem("62")),
-    7: JSON.parse(localStorage.getItem("72")),
-    8: JSON.parse(localStorage.getItem("82")),
-    9: JSON.parse(localStorage.getItem("92")),
-    10: JSON.parse(localStorage.getItem("102")),
-    11: JSON.parse(localStorage.getItem("112")),
-  });
-  // Guarda o stock de cada produto
-  
-
-  // Guarda as quantidades de vendas de cada mês
-  const [vendas, setVendas] = useState({
-    0: JSON.parse(localStorage.getItem("0" + teste)),
-    1: JSON.parse(localStorage.getItem("1" + teste)),
-    2: JSON.parse(localStorage.getItem("2" + teste)),
-    3: JSON.parse(localStorage.getItem("3" + teste)),
-    4: JSON.parse(localStorage.getItem("4" + teste)),
-    5: JSON.parse(localStorage.getItem("5" + teste)),
-    6: JSON.parse(localStorage.getItem("6" + teste)),
-    7: JSON.parse(localStorage.getItem("7" + teste)),
-    8: JSON.parse(localStorage.getItem("8" + teste)),
-    9: JSON.parse(localStorage.getItem("9" + teste)),
-    10: JSON.parse(localStorage.getItem("10" + teste)),
-    11: JSON.parse(localStorage.getItem("11" + teste)),
-  });
   let Brinquedoss = {};
   for (let key in localStorage) {
     if (key.startsWith('Brinquedoss')) {
@@ -106,25 +58,31 @@ const VendingMachine = () => {
   const apiUrl = 'https://localhost:7117';
   const [precoprodutos, setPrecoProduto] = useState({});
   const [stock, setStock] = useState({});
-  const [produto, setProduto] = useState({});
+  const [vendastotais, setVendastotais] = useState({});
+  const [produtos, setProdutos] = useState({});
+  const [api, setApi] = useState([]);
 
 useEffect(() => {
   const fetchBrinquedos = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/TodosBrinquedos/ListaDeBrinquedos`);
       const iu = await response.json();
+      setApi(iu);
 
       if (iu) {
         console.log('Entrou no if');
         // Mapear os objetos de brinquedo e atualizar os estados precoprodutos e stock
-        const precos = iu.map(brinquedo => brinquedo.preco);
+        const precos = Object.values(iu).map(brinquedo => brinquedo.preco);
         setPrecoProduto(precos);
+
+        const totais = Object.values(iu).map(brinquedo => brinquedo.vendastotais);
+        setVendastotais(totais);
 
         const quantidades = Object.values(iu).map(brinquedo => brinquedo.quantidade);
         setStock(quantidades);
 
         const produto = Object.values(iu).map(brinquedo => brinquedo.brinquedo);
-        setProduto(produto);
+        setProdutos(produto);
       } else {
         console.log('Não entrou no if');
       }
@@ -136,37 +94,29 @@ useEffect(() => {
 
   fetchBrinquedos();
 }, []);
-  
-const atualizarQuantidade = async (brinquedoId, novaQuantidade) => {
+const atualizarQuantidade = async (listaProdutos) => {
   try {
     const response = await fetch(`${apiUrl}/api/TodosBrinquedos/AddOrUpdateBrinquedo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ quantidade: novaQuantidade })
+      body: JSON.stringify(listaProdutos)
     });
 
     if (response.ok) {
-      console.log(`Quantidade atualizada para o brinquedo ${brinquedoId}`);
+      console.log('Quantidade atualizada para os brinquedos');
     } else {
-      console.error(`Erro ao atualizar a quantidade do brinquedo ${brinquedoId}`);
+      console.error('Erro ao atualizar a quantidade dos brinquedos');
     }
   } catch (error) {
-    console.error(`Erro ao atualizar a quantidade do brinquedo ${brinquedoId}:`, error);
+    console.error('Erro ao atualizar a quantidade dos brinquedos:', error);
   }
 };
-
 // Guarda o produto selecionado
-const handleselecaoproduto = (produto) => {
+const handleselecaoproduto = async (produto) => {
   setSelecionar(produto);
   setConcluido(false);
-
-  const novaQuantidade = stock[produto] - 1;
-  if (novaQuantidade >= 0) {
-    atualizarQuantidade(produto, novaQuantidade);
-    setStock(prevStock => ({ ...prevStock, [produto]: novaQuantidade }));
-  }
 };
   // Os cinco Handles abaixo é para escolher que moedas se podem inserir
   const handlecheck10 = () => {
@@ -233,7 +183,7 @@ const handleselecaoproduto = (produto) => {
   };
   
   // Verifica se a compra já foi feita, retira stock e aumenta as vendas
-  const handleCompras = () => {
+  const handleCompras = async () => {
     const preco = precoprodutos[selecionar];
     const falta = inserido - preco;
      if(falta >= 0) {
@@ -241,27 +191,25 @@ const handleselecaoproduto = (produto) => {
       setTroco(true);
       setDinheiro((dinheiro) => dinheiro + parseFloat(preco));
       setTotal((moedasInseridas) =>  moedasInseridas + parseFloat(preco));
-      setStock((prevStock) => ({
-        ...prevStock,
-        [selecionar]: prevStock[selecionar] - 1,
-        
-      }));
-      setQtd((prevQtd) => ({
-        ...prevQtd,
-        [selecionar]: prevQtd[selecionar] + 1,
-        
-      }));
       setComprar(false);
-      setVendas((prevVendas) => ({
-        ...prevVendas,
-        [selecionar]: prevVendas[selecionar] + 1,
-        
-      }));
-      setQtdatual((prevQtdatual) => ({
-        ...prevQtdatual,
-        [selecionar]: prevQtdatual[selecionar] + 1,
-        
-      }));
+
+      const novaQuantidade = stock[selecionar] - 1;
+      const novaVendasTotais = vendastotais[selecionar] + 1;
+        if (novaQuantidade >= 0) {
+          const listaProdutosAtualizada = api.map(brinquedo => {
+        if (brinquedo.id === api[selecionar].id) {
+          return { ...brinquedo, quantidade: novaQuantidade, vendastotais: novaVendasTotais };
+        }
+          return brinquedo;
+        });
+
+    await atualizarQuantidade(listaProdutosAtualizada);
+    setApi(listaProdutosAtualizada);
+
+    setStock(prevStock => ({ ...prevStock, [selecionar]: novaQuantidade }));
+    setVendastotais(prevtotais => ({ ...prevtotais, [selecionar]: novaVendasTotais }));
+  }
+      
     }
     else if (falta < 0) {
       alert("Insira mais dinheiro");
@@ -275,7 +223,6 @@ const handleselecaoproduto = (produto) => {
     setComprar(false);
     setInserido(0);
     localStorage.setItem("dinheiro", JSON.stringify(dinheiro));
-    localStorage.setItem([selecionar] + teste, JSON.stringify(vendas[selecionar]));
     setSelecionar("");
     Brinquedoss.tipo = [selecionar], Brinquedoss.data = data, Brinquedoss.troco = [inserido-precoprodutos[selecionar]], Brinquedoss.gasto = precoprodutos[selecionar];
     localStorage.setItem(data, JSON.stringify(Brinquedoss));
@@ -310,7 +257,7 @@ const handleselecaoproduto = (produto) => {
           <h1>Produtos disponíveis:</h1>
         {Object.keys(precoprodutos).map((chave, index) => (
           <p key={index}>
-            {produto[chave]} - {precoprodutos[chave]}€ - {stock[chave]} Quantidades restantes
+            {produtos[chave]} - {precoprodutos[chave]}€ - {stock[chave]} Quantidades restantes
           </p>
         ))}
           <div>
@@ -334,7 +281,7 @@ const handleselecaoproduto = (produto) => {
         stock[chave] > 0 && escolher === true && (
           <Produto
           key={index}
-          nome={produto[chave]}
+          nome={produtos[chave]}
           preco={precoprodutos[chave]}
           estoque={stock[chave]}
           onSelecionar={() => handleselecaoproduto(chave)}

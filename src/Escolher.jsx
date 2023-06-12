@@ -3,11 +3,16 @@ import React, { useState } from 'react';
 function Escolher(props) {
   //Guarda o preço e quantidade de cada brinquedo
   const [id, setId] = useState('');
+  const [brinquedo, setBrinquedo] = useState('');
   const [preco, setPreco] = useState('');
   const [quantidade, setQuantidade] = useState('');
 
   const handleId = (event) => {
     setId(event.target.value);
+  };
+
+  const handleBrinquedo = (event) => {
+    setBrinquedo(event.target.value);
   };
 
   const handlePrecoChange = (event) => {
@@ -36,6 +41,8 @@ function Escolher(props) {
       <h1>Brinquedo</h1>
       <p className='produtos-preco'>Id:</p>
       <input id='pre' type="number" value={id} max={99} onChange={handleId} />
+      <p className="produtos-estoque">Brinquedo:</p>
+      <input id='quant' type="number" value={brinquedo} max={99} onChange={handleBrinquedo} />
       <p className='produtos-preco'>Preço:</p>
       <input id='pre' type="number" value={preco} max={99} onChange={handlePrecoChange} />
       <p className="produtos-estoque">Quantidade:</p>
