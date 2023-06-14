@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 function Escolher(props) {
+  // Estados para armazenar os dados do formulário
   const [id, setId] = useState('');
   const [brinquedo, setBrinquedo] = useState('');
   const [preco, setPreco] = useState('');
   const [quantidade, setQuantidade] = useState('');
-  const [api, setApi] = useState([]);
+  const [api, setApi] = useState([]); // Estado para armazenar os dados da API
 
+  // Manipuladores de evento para atualizar os estados correspondentes
   const handleId = (event) => {
     setId(event.target.value);
   };
@@ -24,6 +26,7 @@ function Escolher(props) {
   };
 
   useEffect(() => {
+    // Função assíncrona para buscar os dados da API
     const fetchBrinquedos = async () => {
       try {
         const response = await fetch(`${apiUrl}/api/TodosBrinquedos/ListaDeBrinquedos`);
@@ -33,18 +36,20 @@ function Escolher(props) {
         console.error('Erro ao obter os brinquedos da API:', error);
       }
     };
-  
-    fetchBrinquedos();
+
+    fetchBrinquedos(); // Chamada da função para buscar os dados da API
   }, []);
 
   const handleConfirm = async () => {
-    if (preco === '' || quantidade === '' || preco <= -1 || quantidade <= -1) {
-      alert('Falta inserir o preço ou a quantidade');
+    // Verifica se todos os campos foram preenchidos corretamente
+    if (preco === '' || quantidade === '' || brinquedo === '' || id === '' || preco <= -1 || id <= -1 || quantidade <= -1) {
+      alert('Falta inserir o preço, a quantidade, o nome do brinquedo ou o id');
     } else {
       const existingProduct = api.find((product) => product.id === id);
-  
+
       if (existingProduct) {
-        const updatedProducts = api.map((product) => {
+        // Modificar preço, quantidade e brinquedo do produto existente
+        const updatedProducts = props.products.map((product) => {
           if (product.id === id) {
             return {
               ...product,
@@ -55,8 +60,9 @@ function Escolher(props) {
           }
           return product;
         });
-  
-        await atualizarProdutos(updatedProducts);
+
+        await atualizarProdutos(updatedProducts); // Atualiza os produtos na API
+        setApi(updatedProducts); // Atualiza o array "api" com os produtos atualizados
       } else {
         const newProduct = {
           id: id,
@@ -64,11 +70,12 @@ function Escolher(props) {
           preco: parseFloat(preco).toFixed(2),
           quantidade: quantidade
         };
-  
-        await adicionarProduto([...api, newProduct]);
+        props.onConfirm(newProduct); // Envia o novo produto para o componente pai
+        await adicionarProduto([...api, newProduct]); // Adiciona o novo produto na API
         setApi([...api, newProduct]); // Adiciona o novo produto ao array "api"
       }
-  
+
+      // Limpa os campos do formulário
       setId('');
       setBrinquedo('');
       setPreco('');
@@ -79,6 +86,7 @@ function Escolher(props) {
 
   const apiUrl = 'https://localhost:7117';
 
+  // Função assíncrona para atualizar os produtos na API
   const atualizarProdutos = async (updatedProducts) => {
     try {
       const response = await fetch(`${apiUrl}/api/TodosBrinquedos/AddOrUpdateBrinquedo`, {
@@ -88,7 +96,7 @@ function Escolher(props) {
         },
         body: JSON.stringify(updatedProducts)
       });
-  
+
       if (response.ok) {
         console.log('Produtos atualizados na API');
         setApi(updatedProducts); // Atualiza o array "api" com os produtos atualizados
@@ -99,7 +107,8 @@ function Escolher(props) {
       console.error('Erro ao atualizar os produtos na API:', error);
     }
   };
-  
+
+  // Função assíncrona para adicionar um novo produto na API
   const adicionarProduto = async (newProduct) => {
     try {
       const response = await fetch(`${apiUrl}/api/TodosBrinquedos/AddOrUpdateBrinquedo`, {
@@ -109,7 +118,7 @@ function Escolher(props) {
         },
         body: JSON.stringify(newProduct)
       });
-  
+
       if (response.ok) {
         console.log('Novo produto adicionado na API');
       } else {

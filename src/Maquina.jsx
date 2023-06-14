@@ -55,23 +55,32 @@ const VendingMachine = () => {
       Brinquedoss = {...Brinquedoss, ...JSON.parse(localStorage.getItem(key))}
     }
   }
+  //Guardar o URL da Api
   const apiUrl = 'https://localhost:7117';
+  //Guardar o preço de todos os produtos
   const [precoprodutos, setPrecoProduto] = useState({});
+  //Guardar o stock de todos os produtos
   const [stock, setStock] = useState({});
+  //Guardar as vendas totais de todos os produtos
   const [vendastotais, setVendastotais] = useState({});
+  //Guardar o nome do brinquedo de todos os produtos
   const [produtos, setProdutos] = useState({});
+  //Guardar a Api inteira
   const [api, setApi] = useState([]);
 
 useEffect(() => {
   const fetchBrinquedos = async () => {
     try {
+      //Guarda o URL inteiro da Api
       const response = await fetch(`${apiUrl}/api/TodosBrinquedos/ListaDeBrinquedos`);
+      //Vais buscar e guardar os dados da Api
       const iu = await response.json();
+      //Guarda dentro do estado api os dados da api
       setApi(iu);
 
       if (iu) {
         console.log('Entrou no if');
-        // Mapear os objetos de brinquedo e atualizar os estados precoprodutos e stock
+        // Mapear os objetos de brinquedo e atualizar os estados precoprodutos, stock, vendas totais e nome do brinquedo
         const precos = Object.values(iu).map(brinquedo => brinquedo.preco);
         setPrecoProduto(precos);
 
@@ -86,14 +95,15 @@ useEffect(() => {
       } else {
         console.log('Não entrou no if');
       }
-
     } catch (error) {
       console.error('Erro ao obter os brinquedos da API:', error);
     }
   };
 
+  //Chamar a const fetchbrinquedos
   fetchBrinquedos();
 }, []);
+//Vai mandar para a Api a lista de brinquedos atualizada
 const atualizarQuantidade = async (listaProdutos) => {
   try {
     const response = await fetch(`${apiUrl}/api/TodosBrinquedos/AddOrUpdateBrinquedo`, {
@@ -192,10 +202,12 @@ const handleselecaoproduto = async (produto) => {
       setDinheiro((dinheiro) => dinheiro + parseFloat(preco));
       setTotal((moedasInseridas) =>  moedasInseridas + parseFloat(preco));
       setComprar(false);
-
-      const novaQuantidade = stock[selecionar] - 1;
-      const novaVendasTotais = vendastotais[selecionar] + 1;
-        if (novaQuantidade >= 0) {
+      //Retira 1 á quantidade e aumenta 1 á venda total de um certo produto
+      const novaQuantidade = stock[selecionar];
+      const novaVendasTotais = vendastotais[selecionar];
+      //Verifica se a quantidade do produto é maior que 0
+        if (novaQuantidade > 0) {
+          //Mapeia a variavel Api
           const listaProdutosAtualizada = api.map(brinquedo => {
         if (brinquedo.id === api[selecionar].id) {
           return { ...brinquedo, quantidade: novaQuantidade, vendastotais: novaVendasTotais };
@@ -205,11 +217,9 @@ const handleselecaoproduto = async (produto) => {
 
     await atualizarQuantidade(listaProdutosAtualizada);
     setApi(listaProdutosAtualizada);
-
-    setStock(prevStock => ({ ...prevStock, [selecionar]: novaQuantidade }));
-    setVendastotais(prevtotais => ({ ...prevtotais, [selecionar]: novaVendasTotais }));
-  }
-      
+    setStock(prevStock => ({ ...prevStock, [selecionar]: novaQuantidade - 1 }));
+    setVendastotais(prevtotais => ({ ...prevtotais, [selecionar]: novaVendasTotais + 1 }));
+  } 
     }
     else if (falta < 0) {
       alert("Insira mais dinheiro");
