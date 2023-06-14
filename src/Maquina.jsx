@@ -203,8 +203,8 @@ const handleselecaoproduto = async (produto) => {
       setTotal((moedasInseridas) =>  moedasInseridas + parseFloat(preco));
       setComprar(false);
       //Retira 1 á quantidade e aumenta 1 á venda total de um certo produto
-      const novaQuantidade = stock[selecionar];
-      const novaVendasTotais = vendastotais[selecionar];
+      const novaQuantidade = stock[selecionar] - 1;
+      const novaVendasTotais = vendastotais[selecionar] + 1;
       //Verifica se a quantidade do produto é maior que 0
         if (novaQuantidade > 0) {
           //Mapeia a variavel Api
@@ -217,8 +217,8 @@ const handleselecaoproduto = async (produto) => {
 
     await atualizarQuantidade(listaProdutosAtualizada);
     setApi(listaProdutosAtualizada);
-    setStock(prevStock => ({ ...prevStock, [selecionar]: novaQuantidade - 1 }));
-    setVendastotais(prevtotais => ({ ...prevtotais, [selecionar]: novaVendasTotais + 1 }));
+    setStock(prevStock => ({ ...prevStock, [selecionar]: novaQuantidade }));
+    setVendastotais(prevtotais => ({ ...prevtotais, [selecionar]: novaVendasTotais }));
   } 
     }
     else if (falta < 0) {

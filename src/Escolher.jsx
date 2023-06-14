@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Tabela from './Tabela';
 
 function Escolher(props) {
   // Estados para armazenar os dados do formulário
@@ -70,6 +71,7 @@ function Escolher(props) {
           preco: parseFloat(preco).toFixed(2),
           quantidade: quantidade
         };
+        <Tabela/>
         props.onConfirm(newProduct); // Envia o novo produto para o componente pai
         await adicionarProduto([...api, newProduct]); // Adiciona o novo produto na API
         setApi([...api, newProduct]); // Adiciona o novo produto ao array "api"
