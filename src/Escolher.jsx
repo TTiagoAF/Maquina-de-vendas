@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Tabela from './Tabela';
 
 function Escolher(props) {
   // Estados para armazenar os dados do formulário
@@ -47,34 +46,40 @@ function Escolher(props) {
       alert('Falta inserir o preço, a quantidade, o nome do brinquedo ou o id');
     } else {
       const existingProduct = api.find((product) => product.id === id);
-
+      // eslint-disable-next-line no-debugger
+      debugger
       if (existingProduct) {
         // Modificar preço, quantidade e brinquedo do produto existente
         const updatedProducts = props.products.map((product) => {
           if (product.id === id) {
             return {
               ...product,
-              preco: parseFloat(preco).toFixed(2),
+              brinquedo: brinquedo,
+              preco: preco,
               quantidade: quantidade,
-              brinquedo: brinquedo
+              vendastotais: 0
             };
           }
           return product;
         });
-
+        props.onConfirm(updatedProducts);
         await atualizarProdutos(updatedProducts); // Atualiza os produtos na API
         setApi(updatedProducts); // Atualiza o array "api" com os produtos atualizados
+        // eslint-disable-next-line no-debugger
+        debugger
       } else {
         const newProduct = {
           id: id,
           brinquedo: brinquedo,
-          preco: parseFloat(preco).toFixed(2),
-          quantidade: quantidade
+          preco: preco,
+          quantidade: quantidade,
+          vendastotais: 0
         };
-        <Tabela/>
-        props.onConfirm(newProduct); // Envia o novo produto para o componente pai
         await adicionarProduto([...api, newProduct]); // Adiciona o novo produto na API
+        props.onConfirm(newProduct); // Envia o que estava dentro da api mais o novo produto para o componente Config
         setApi([...api, newProduct]); // Adiciona o novo produto ao array "api"
+        // eslint-disable-next-line no-debugger
+        debugger
       }
 
       // Limpa os campos do formulário

@@ -104,29 +104,45 @@ useEffect(() => {
   fetchBrinquedos();
 }, []);
 //Vai mandar para a Api a lista de brinquedos atualizada
-const atualizarQuantidade = async (listaProdutos) => {
-  try {
-    const response = await fetch(`${apiUrl}/api/TodosBrinquedos/AddOrUpdateBrinquedo`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(listaProdutos)
-    });
 
-    if (response.ok) {
-      console.log('Quantidade atualizada para os brinquedos');
-    } else {
-      console.error('Erro ao atualizar a quantidade dos brinquedos');
-    }
-  } catch (error) {
-    console.error('Erro ao atualizar a quantidade dos brinquedos:', error);
-  }
-};
+
 // Guarda o produto selecionado
 const handleselecaoproduto = async (produto) => {
   setSelecionar(produto);
   setConcluido(false);
+};
+const handleCompras = async () => {
+  const preco = precoprodutos[selecionar];
+  const falta = inserido - preco;
+
+  if (falta >= 0) {
+    setConcluido(true);
+    setTroco(true);
+    setDinheiro((dinheiro) => dinheiro + parseFloat(preco));
+    setTotal((moedasInseridas) => moedasInseridas + parseFloat(preco));
+    setComprar(false);
+    const novaQuantidade = stock[selecionar] - 1;
+    const novaVendasTotais = vendastotais[selecionar] + 1;
+    setStock(prevStock => ({ ...prevStock, [selecionar]: novaQuantidade }));
+    setVendastotais(prevtotais => ({ ...prevtotais, [selecionar]: novaVendasTotais }));
+
+    try {
+      const response = await fetch(`${apiUrl}/api/TodosBrinquedos/AtualizarQuantidadeEVendas/${api[selecionar].id}`, {
+        method: 'POST'
+      });
+
+      if (response.ok) {
+        console.log('Quantidade e vendas totais atualizadas');
+        // Atualize o estado do componente com base na resposta do servidor, se necessário
+      } else {
+        console.error('Erro ao atualizar a quantidade e vendas totais do brinquedo');
+      }
+    } catch (error) {
+      console.error('Erro ao realizar a solicitação:', error);
+    }
+  } else if (falta < 0) {
+    alert('Insira mais dinheiro');
+  }
 };
   // Os cinco Handles abaixo é para escolher que moedas se podem inserir
   const handlecheck10 = () => {
@@ -193,38 +209,7 @@ const handleselecaoproduto = async (produto) => {
   };
   
   // Verifica se a compra já foi feita, retira stock e aumenta as vendas
-  const handleCompras = async () => {
-    const preco = precoprodutos[selecionar];
-    const falta = inserido - preco;
-     if(falta >= 0) {
-      setConcluido(true);
-      setTroco(true);
-      setDinheiro((dinheiro) => dinheiro + parseFloat(preco));
-      setTotal((moedasInseridas) =>  moedasInseridas + parseFloat(preco));
-      setComprar(false);
-      //Retira 1 á quantidade e aumenta 1 á venda total de um certo produto
-      const novaQuantidade = stock[selecionar] - 1;
-      const novaVendasTotais = vendastotais[selecionar] + 1;
-      //Verifica se a quantidade do produto é maior que 0
-        if (novaQuantidade > 0) {
-          //Mapeia a variavel Api
-          const listaProdutosAtualizada = api.map(brinquedo => {
-        if (brinquedo.id === api[selecionar].id) {
-          return { ...brinquedo, quantidade: novaQuantidade, vendastotais: novaVendasTotais };
-        }
-          return brinquedo;
-        });
-
-    await atualizarQuantidade(listaProdutosAtualizada);
-    setApi(listaProdutosAtualizada);
-    setStock(prevStock => ({ ...prevStock, [selecionar]: novaQuantidade }));
-    setVendastotais(prevtotais => ({ ...prevtotais, [selecionar]: novaVendasTotais }));
-  } 
-    }
-    else if (falta < 0) {
-      alert("Insira mais dinheiro");
-    }
-  };
+  
 
   // Manda tudo para a localstorage e é aqui que se recebe o troco
   const handleTroco = () => {

@@ -2,18 +2,38 @@ import { Link } from "react-router-dom";
 import Escolher from './Escolher';
 import './Config.css';
 import Tabela from "./Tabela";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ChartExample from "./Teste";
 
 const Config = () => {
   const [products, setProducts] = useState([]);
-  // Guarda o valor total de faturação
-  const [dinheiro, ] = useState(JSON.parse(localStorage.getItem('dinheiro')));
+  const [dinheiro] = useState(JSON.parse(localStorage.getItem('dinheiro')));
+  const apiUrl = 'https://localhost:7117';
+  //Guardar a Api inteira
+  const [api, setApi] = useState([]);
 
+  useEffect(() => {
+    const fetchBrinquedos = async () => {
+      try {
+        //Guarda o URL inteiro da Api
+        const response = await fetch(`${apiUrl}/api/TodosBrinquedos/ListaDeBrinquedos`);
+        //Vais buscar e guardar os dados da Api
+        const iu = await response.json();
+        //Guarda dentro do estado api os dados da api
+        setApi(iu);
+      } catch (error) {
+        console.error('Erro ao obter os brinquedos da API:', error);
+      }
+    };
+  
+    //Chamar a const fetchbrinquedos
+    fetchBrinquedos();
+  }, []);
+  
   const handleConfirm = (newProduct) => {
-    setProducts(newProduct);
+    setProducts([...api,newProduct]);
   };
-  // Mostra o Escolher, a tabela e o gráfico
+
   return (
     <div>
       <h1 className="titulo">Configurar stocks e preços</h1>
@@ -22,12 +42,12 @@ const Config = () => {
         <button className="produtos-button">Inicio</button>
       </Link>
       <ul className="produtos-config">
-      <Escolher products={products} onConfirm={handleConfirm}/>
+        <Escolher onConfirm={handleConfirm} />
         <br/>
-        <Tabela products={products}/>
+        <Tabela products={products} />
         <br />
         <br />
-        <ChartExample/>
+        <ChartExample />
       </ul>
     </div>
   );
