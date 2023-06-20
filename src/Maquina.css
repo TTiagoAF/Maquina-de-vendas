@@ -49,7 +49,6 @@ div > h2 {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
-  padding-bottom: 620px;
 }
 
 .produtos-config {
@@ -173,83 +172,6 @@ div > h2 {
 .modal-buttons:hover {
   background-color: #333;
   color: #ffffff;
-}
-
-.HotWheels {
-  position: absolute;
-  margin-left: 435px;
-  text-align: center;
-}
-
-.Peluche {
-  position: absolute;
-  margin-left: 650px;
-  text-align: center;
-}
-
-.Puzzle {
-  position: absolute;
-  margin-left: 865px;
-  text-align: center;
-}
-
-.Pião {
-  position: absolute;
-  margin-left: 1080px;
-  text-align: center;
-}
-
-.Lego {
-  position: absolute;
-  margin-left: 1295px;
-  text-align: center;
-}
-
-.Comboio {
-  position: absolute;
-  margin-left: 220px;
-  text-align: center;
-}
-
-.Nenucos {
-  position: absolute;
-  margin-left: 5px;
-  text-align: center;
-}
-
-.Nerfs {
-  margin-top: 300px;
-  position: absolute;
-  margin-left: 220px;
-  text-align: center;
-}
-
-.Barbie {
-  margin-top: 300px;
-  position: absolute;
-  margin-left: 435px;
-  text-align: center;
-}
-
-.Cubos {
-  margin-top: 300px;
-  position: absolute;
-  margin-left: 650px;
-  text-align: center;
-}
-
-.Berlinde {
-  margin-top: 300px;
-  position: absolute;
-  margin-left: 865px;
-  text-align: center;
-}
-
-.Pop {
-  margin-top: 300px;
-  position: absolute;
-  margin-left: 1080px;
-  text-align: center;
 }
 
 .pagar-produtos,

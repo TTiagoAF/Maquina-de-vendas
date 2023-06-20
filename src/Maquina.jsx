@@ -111,6 +111,7 @@ const handleselecaoproduto = async (produto) => {
   setSelecionar(produto);
   setConcluido(false);
 };
+// Verifica se a compra já foi feita, retira stock e aumenta as vendas
 const handleCompras = async () => {
   const preco = precoprodutos[selecionar];
   const falta = inserido - preco;
@@ -130,10 +131,8 @@ const handleCompras = async () => {
       const response = await fetch(`${apiUrl}/api/TodosBrinquedos/AtualizarQuantidadeEVendas/${api[selecionar].id}`, {
         method: 'POST'
       });
-
       if (response.ok) {
         console.log('Quantidade e vendas totais atualizadas');
-        // Atualize o estado do componente com base na resposta do servidor, se necessário
       } else {
         console.error('Erro ao atualizar a quantidade e vendas totais do brinquedo');
       }
@@ -207,9 +206,6 @@ const handleCompras = async () => {
     setEscolher(true);
     setComprar(true);
   };
-  
-  // Verifica se a compra já foi feita, retira stock e aumenta as vendas
-  
 
   // Manda tudo para a localstorage e é aqui que se recebe o troco
   const handleTroco = () => {
@@ -227,7 +223,6 @@ const handleCompras = async () => {
       <h1 className="titulo">Vending Machine</h1>
       <p className="total">Valor total no moedeiro: {total !== null || total !== undefined ? parseFloat(total).toFixed(2) : 0}€</p>
       <button className="modal-button" onClick={() => setShowModal(true)}>Ver lista de compras</button>
-    
       {showModal ? (
         <Modal>
           <div>
@@ -250,11 +245,11 @@ const handleCompras = async () => {
       <Modal>
         <div>
           <h1>Produtos disponíveis:</h1>
-        {Object.keys(precoprodutos).map((chave, index) => (
-          <p key={index}>
-            {produtos[chave]} - {precoprodutos[chave]}€ - {stock[chave]} Quantidades restantes
-          </p>
-        ))}
+          {Object.keys(precoprodutos).map((chave, index) => (
+            <p key={index}>
+              {produtos[chave]} - {precoprodutos[chave]}€ - {stock[chave]} Quantidades restantes
+            </p>
+          ))}
           <div>
             <button onClick={() => setShowModal2(false)}>OK</button>
           </div>
@@ -272,17 +267,17 @@ const handleCompras = async () => {
     
       <h2>Produtos disponíveis:</h2>
       <ul className="produtos-form">
-      {Object.keys(stock).map((chave, index) => (
-        stock[chave] > 0 && escolher === true && (
-          <Produto
-          key={index}
-          nome={produtos[chave]}
-          preco={precoprodutos[chave]}
-          estoque={stock[chave]}
-          onSelecionar={() => handleselecaoproduto(chave)}
-          />
-        )
-      ))}
+        {Object.keys(stock).map((chave, index) => (
+          stock[chave] > 0 && escolher === true && (
+            <Produto
+              key={index}
+              nome={produtos[chave]}
+              preco={precoprodutos[chave]}
+              estoque={stock[chave]}
+              onSelecionar={() => handleselecaoproduto(chave)}
+            />
+          )
+        ))}
       </ul>
     
       <div className="pagar-produtos">

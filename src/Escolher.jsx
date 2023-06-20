@@ -97,7 +97,7 @@ function Escolher(props) {
   const atualizarProdutos = async (updatedProducts) => {
     try {
       const response = await fetch(`${apiUrl}/api/TodosBrinquedos/AddOrUpdateBrinquedo`, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
