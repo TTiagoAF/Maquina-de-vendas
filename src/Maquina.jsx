@@ -34,7 +34,8 @@ const VendingMachine = () => {
   const [checkdois, setCheckdois] = useState(false);
   const [, setConcluido] = useState(false);
   // Guarda a data para guardar as compras feitas na localstorage
-  const data = moment().format('Do, h:mm:ss a');
+  const data = moment().format('MMMM Do YYYY, h:mm:ss');
+  let datas = "";
   
 
   let keys = [];
@@ -67,6 +68,7 @@ const VendingMachine = () => {
   const [produtos, setProdutos] = useState({});
   //Guardar a Api inteira
   const [api, setApi] = useState([]);
+  const [apivendas, setApivendas] = useState([]);
 
 useEffect(() => {
   const fetchBrinquedos = async () => {
@@ -77,6 +79,14 @@ useEffect(() => {
       const iu = await response.json();
       //Guarda dentro do estado api os dados da api
       setApi(iu);
+
+      const responses = await fetch(`${apiUrl}/api/TodasVendas/ListaDeVendas`);
+      //Vais buscar e guardar os dados da Api
+      const ius = await responses.json();
+      //Guarda dentro do estado api os dados da api
+      setApivendas(ius);
+      // eslint-disable-next-line no-debugger
+    debugger;
 
       if (iu) {
         console.log('Entrou no if');
@@ -99,12 +109,11 @@ useEffect(() => {
       console.error('Erro ao obter os brinquedos da API:', error);
     }
   };
+  
 
   //Chamar a const fetchbrinquedos
   fetchBrinquedos();
 }, []);
-//Vai mandar para a Api a lista de brinquedos atualizada
-
 
 // Guarda o produto selecionado
 const handleselecaoproduto = async (produto) => {
@@ -207,14 +216,46 @@ const handleCompras = async () => {
     setComprar(true);
   };
 
+  const adicionarVenda = async (novavenda) => {
+    try {
+      const response = await fetch(`${apiUrl}/api/TodasVendas/AddVendas`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(novavenda)
+      });
+  
+      if (response.ok) {
+        console.log('Novo produto adicionado na API');
+      } else {
+        console.error('Erro ao adicionar novo produto na API');
+      }
+    } catch (error) {
+      console.error('Erro ao adicionar novo produto na API:', error);
+    }
+  };
+
   // Manda tudo para a localstorage e é aqui que se recebe o troco
-  const handleTroco = () => {
+  const handleTroco = async () => {
+    datas = data;
     setTroco(false);
     setEscolher(false);
     setComprar(false);
     setInserido(0);
     localStorage.setItem("dinheiro", JSON.stringify(dinheiro));
     setSelecionar("");
+    const novavenda = {
+      Id_venda: 1,
+      Data: datas,
+      Id_produto: api[selecionar].id,
+      Quantidade_Vendida: 1,
+      Preco: precoprodutos[selecionar],
+    };
+    await adicionarVenda([novavenda]);
+    setApivendas([...apivendas, novavenda]);
+    // eslint-disable-next-line no-debugger
+    debugger;
     Brinquedoss.tipo = [selecionar], Brinquedoss.data = data, Brinquedoss.troco = [inserido-precoprodutos[selecionar]], Brinquedoss.gasto = precoprodutos[selecionar];
     localStorage.setItem(data, JSON.stringify(Brinquedoss));
   };
