@@ -46,10 +46,8 @@ function Escolher(props) {
       alert('Falta inserir o preço, a quantidade, o nome do brinquedo ou o id');
     } else {
       const existingProduct = api.find((product) => product.id === id);
-      // eslint-disable-next-line no-debugger
-      debugger
       if (existingProduct) {
-        // Modificar preço, quantidade e brinquedo do produto existente
+        // Modificar preço, quantidade e nome brinquedo do produto existente
         const updatedProducts = props.products.map((product) => {
           if (product.id === id) {
             return {
@@ -65,8 +63,6 @@ function Escolher(props) {
         props.onConfirm(updatedProducts);
         await atualizarProdutos(updatedProducts); // Atualiza os produtos na API
         setApi(updatedProducts); // Atualiza o array "api" com os produtos atualizados
-        // eslint-disable-next-line no-debugger
-        debugger
       } else {
         const newProduct = {
           id: id,
@@ -78,8 +74,6 @@ function Escolher(props) {
         await adicionarProduto([...api, newProduct]); // Adiciona o novo produto na API
         props.onConfirm(newProduct); // Envia o que estava dentro da api mais o novo produto para o componente Config
         setApi([...api, newProduct]); // Adiciona o novo produto ao array "api"
-        // eslint-disable-next-line no-debugger
-        debugger
       }
 
       // Limpa os campos do formulário

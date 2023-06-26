@@ -9,21 +9,21 @@ import { Link } from "react-router-dom";
 
 // Página principal
 const VendingMachine = () => {
-  // Mostrar o modal 1 que mostra todas as ações feitas no site
+  // Mostra o modal 1 que está a mostrar todas as ações feitas no site
   const [showModal, setShowModal] = useState(false);
-  // Mostrar o modal 2 que mostra o preço e o stock de cada produto
+  // Mostra o modal 2 que mostra o preço e o stock de cada brinquedo
   const [showModal2, setShowModal2] = useState(false);
   // Mostrar o total feito no momento que está a ser usado
   const [total, setTotal] = useState(parseFloat(10.00));
-  // Guarda o produto escolhido
+  // Guarda o brinquedo escolhido para compra
   const [selecionar, setSelecionar] = useState("");
-  // Guarda o total de faturação da loja
+  // Guarda o total de faturação da loja e vai buscar essa informação á localstorage
   const [dinheiro, setDinheiro] = useState(JSON.parse(localStorage.getItem('dinheiro')));
-  // Guarda o dinheiro inserido
+  // Guarda o dinheiro que foi inserido
   const [inserido, setInserido] = useState(0);
   // Faz que quando se compra um produto mostra a recolha de troco
   const [troco, setTroco] = useState(false);
-  // Faz que quando o cliente queira esscolher um produto ele clica no botão escolher produto aparece os produtos disponiveis
+  // Faz que quando o cliente queira escolher um produto ele clica no botão escolher produto aparece os produtos disponiveis
   const [escolher, setEscolher] = useState(false);
   const [comprar, setComprar] = useState(false);
   // As cinco variáveis abaixo é para escolher que moedas se podem inserir
@@ -34,9 +34,8 @@ const VendingMachine = () => {
   const [checkdois, setCheckdois] = useState(false);
   const [, setConcluido] = useState(false);
   // Guarda a data para guardar as compras feitas na localstorage
-  const data = moment().format('MMMM Do YYYY, h:mm:ss');
+  const data = moment().format('MMMM Do YYYY, h:mm:ss a');
   let datas = "";
-  
 
   let keys = [];
   let values = [];
@@ -48,14 +47,6 @@ const VendingMachine = () => {
   let value = localStorage.getItem(key);
   values.push(value);
 }
-// Guarda os preços dos produtos
-
-  let Brinquedoss = {};
-  for (let key in localStorage) {
-    if (key.startsWith('Brinquedoss')) {
-      Brinquedoss = {...Brinquedoss, ...JSON.parse(localStorage.getItem(key))}
-    }
-  }
   //Guardar o URL da Api
   const apiUrl = 'https://localhost:7117';
   //Guardar o preço de todos os produtos
@@ -73,20 +64,18 @@ const VendingMachine = () => {
 useEffect(() => {
   const fetchBrinquedos = async () => {
     try {
-      //Guarda o URL inteiro da Api
+      //Guarda o URL do controller de brinquedos
       const response = await fetch(`${apiUrl}/api/TodosBrinquedos/ListaDeBrinquedos`);
       //Vais buscar e guardar os dados da Api
       const iu = await response.json();
       //Guarda dentro do estado api os dados da api
       setApi(iu);
-
+      //Guarda o URL do controller de vendas
       const responses = await fetch(`${apiUrl}/api/TodasVendas/ListaDeVendas`);
       //Vais buscar e guardar os dados da Api
       const ius = await responses.json();
       //Guarda dentro do estado api os dados da api
       setApivendas(ius);
-      // eslint-disable-next-line no-debugger
-    debugger;
 
       if (iu) {
         console.log('Entrou no if');
@@ -109,12 +98,9 @@ useEffect(() => {
       console.error('Erro ao obter os brinquedos da API:', error);
     }
   };
-  
-
   //Chamar a const fetchbrinquedos
   fetchBrinquedos();
 }, []);
-
 // Guarda o produto selecionado
 const handleselecaoproduto = async (produto) => {
   setSelecionar(produto);
@@ -135,7 +121,6 @@ const handleCompras = async () => {
     const novaVendasTotais = vendastotais[selecionar] + 1;
     setStock(prevStock => ({ ...prevStock, [selecionar]: novaQuantidade }));
     setVendastotais(prevtotais => ({ ...prevtotais, [selecionar]: novaVendasTotais }));
-
     try {
       const response = await fetch(`${apiUrl}/api/TodosBrinquedos/AtualizarQuantidadeEVendas/${api[selecionar].id}`, {
         method: 'POST'
@@ -145,8 +130,8 @@ const handleCompras = async () => {
       } else {
         console.error('Erro ao atualizar a quantidade e vendas totais do brinquedo');
       }
-    } catch (error) {
-      console.error('Erro ao realizar a solicitação:', error);
+    } catch (erro) {
+      console.error('Erro ao realizar a solicitação:', erro);
     }
   } else if (falta < 0) {
     alert('Insira mais dinheiro');
@@ -215,7 +200,7 @@ const handleCompras = async () => {
     setEscolher(true);
     setComprar(true);
   };
-
+  //Manda para a Api a nova venda feita
   const adicionarVenda = async (novavenda) => {
     try {
       const response = await fetch(`${apiUrl}/api/TodasVendas/AddVendas`, {
@@ -227,15 +212,14 @@ const handleCompras = async () => {
       });
   
       if (response.ok) {
-        console.log('Novo produto adicionado na API');
+        console.log('Nova venda adicionada na API');
       } else {
-        console.error('Erro ao adicionar novo produto na API');
+        console.error('Erro ao adicionar nova venda na API');
       }
-    } catch (error) {
-      console.error('Erro ao adicionar novo produto na API:', error);
+    } catch (erro) {
+      console.error('Erro ao adicionar nova venda na API:', erro);
     }
   };
-
   // Manda tudo para a localstorage e é aqui que se recebe o troco
   const handleTroco = async () => {
     datas = data;
@@ -251,13 +235,10 @@ const handleCompras = async () => {
       Id_produto: api[selecionar].id,
       Quantidade_Vendida: 1,
       Preco: precoprodutos[selecionar],
+      Troco: inserido - precoprodutos[selecionar]
     };
     await adicionarVenda([novavenda]);
     setApivendas([...apivendas, novavenda]);
-    // eslint-disable-next-line no-debugger
-    debugger;
-    Brinquedoss.tipo = [selecionar], Brinquedoss.data = data, Brinquedoss.troco = [inserido-precoprodutos[selecionar]], Brinquedoss.gasto = precoprodutos[selecionar];
-    localStorage.setItem(data, JSON.stringify(Brinquedoss));
   };
   return (
     <div>
@@ -281,7 +262,6 @@ const handleCompras = async () => {
         ) : null}
     
       <button className="modal-buttons" onClick={() => setShowModal2(true)}>Produtos disponíveis</button>
-    
     {Object.keys(precoprodutos).length > 0 && showModal2 ? (
       <Modal>
         <div>
@@ -297,7 +277,6 @@ const handleCompras = async () => {
         </div>
       </Modal>
     ) : null}
-    
       <div className="checks">
         <input onChange={handlecheck10} type="checkbox" />0.10€
         <input onChange={handlecheck20} type="checkbox" />0.20€
@@ -305,7 +284,6 @@ const handleCompras = async () => {
         <input onChange={handlecheck1} type="checkbox" />1€
         <input onChange={handlecheck2} type="checkbox" />2€
       </div>
-    
       <h2>Produtos disponíveis:</h2>
       <ul className="produtos-form">
         {Object.keys(stock).map((chave, index) => (
@@ -320,7 +298,6 @@ const handleCompras = async () => {
           )
         ))}
       </ul>
-    
       <div className="pagar-produtos">
         <p>Preço: {precoprodutos[selecionar]}€</p>
         <p>Dinheiro inserido: {inserido.toFixed(2)}€</p>
@@ -348,7 +325,6 @@ const handleCompras = async () => {
           <button className="produtos-button">Configurar</button>
         </Link>
       </div>
-    
       {troco && (
         <div className="troco-produtos">
           <p>Por favor recolha o seu brinquedo</p>
@@ -358,7 +334,7 @@ const handleCompras = async () => {
       )}
     </div>
   );
-      };
+};
 function DetailsErrorBoundary(props) {
   return(
       <ErrorBoundary>
