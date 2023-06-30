@@ -32,8 +32,8 @@ function Escolher(props) {
         const response = await fetch(`${apiUrl}/api/TodosBrinquedos/ListaDeBrinquedos`);
         const data = await response.json();
         setApi(data);
-      } catch (error) {
-        console.error('Erro ao obter os brinquedos da API:', error);
+      } catch (erro) {
+        console.error('Erro ao obter os brinquedos da API:', erro);
       }
     };
 
@@ -45,8 +45,8 @@ function Escolher(props) {
     if (preco === '' || quantidade === '' || brinquedo === '' || id === '' || preco <= -1 || id <= -1 || quantidade <= -1) {
       alert('Falta inserir o preço, a quantidade, o nome do brinquedo ou o id');
     } else {
-      const existingProduct = api.find((product) => product.id === id);
-      if (existingProduct) {
+      const produtoexistente = api.find((product) => product.id === id);
+      if (produtoexistente) {
         // Modificar preço, quantidade e nome brinquedo do produto existente
         const updatedProducts = props.products.map((product) => {
           if (product.id === id) {

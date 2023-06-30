@@ -248,7 +248,7 @@ const handleCompras = async () => {
       {showModal ? (
         <Modal>
           <div>
-            <h1>Olá, esta é a lista de compras:</h1>
+            <h1>Esta é a lista de compras:</h1>
             <ul>
               {values.map((value, index) => (
             <li key={index}>{value}</li>
